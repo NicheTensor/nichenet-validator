@@ -29,6 +29,7 @@ import bittensor as bt
 
 # import this repo
 import template
+from miner_model.miner_model import MinerModel
 
 def get_config():
     # Step 2: Set up the configuration parser
@@ -37,6 +38,9 @@ def get_config():
     parser = argparse.ArgumentParser()
     # TODO(developer): Adds your custom miner arguments to the parser.
     parser.add_argument('--custom', default='my_custom_value', help='Adds a custom value to the parser.')
+
+    parser.add_argument('--category', type=str, default = 'general_chat', help = 'Category of the miner')
+
     # Adds override arguments for network and netuid.
     parser.add_argument( '--netuid', type = int, default = 1, help = "The chain subnet uid." )
     # Adds subtensor specific arguments i.e. --subtensor.chain_endpoint ... --subtensor.network ...
@@ -124,7 +128,7 @@ def main( config ):
 
     # The priority function determines the order in which requests are handled.
     # More valuable or higher-priority requests are processed before others.
-    def priority_fn( synapse: template.protocol.Dummy ) -> float:
+    def priority_fn( synapse: template.protocol.PromptingTemplate ) -> float:
         # TODO(developer): Define how miners should prioritize requests.
         # Miners may recieve messages from multiple entities at once. This function
         # determines which request should be processed first. Higher values indicate
@@ -137,13 +141,41 @@ def main( config ):
         return prirority
 
     # This is the core miner function, which decides the miner's response to a valid, high-priority request.
-    def dummy( synapse: template.protocol.Dummy ) -> template.protocol.Dummy:
+    def prompting( synapse: template.protocol.PromptingTemplate ) -> template.protocol.PromptingTemplate:
         # TODO(developer): Define how miners should process requests.
         # This function runs after the synapse has been deserialized (i.e. after synapse.data is available).
         # This function runs after the blacklist and priority functions have been called.
         # Below: simple template logic: return the input value multiplied by 2.
         # If you change this, your miner will lose emission in the network incentive landscape.
-        synapse.dummy_output = synapse.dummy_input * 2
+
+        # category = synapse.prompt_input['category']
+        category = config.category
+        tags = []
+
+        get_miner_info = synapse.prompt_input['get_miner_info']
+        if get_miner_info:
+            synapse.prompt_output = {'category': category, 'tags': tags}
+            return synapse
+
+        question = synapse.prompt_input['prompt']
+        max_tokens = synapse.prompt_input['max_tokens']
+        max_response_time = synapse.prompt_input['max_response_time']
+
+        prompting = {
+            "prefix":"A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions.",
+            "assistant_start":'\nASSISTANT:',
+            "assistant_end":'</s>',
+
+            "user_start":'\nUSER: ',
+            "user_end":'',
+            }
+
+        miner_model = MinerModel(url="http://209.20.158.61:8000/v1/completions",model_name="WizardLM/WizardLM-13B-V1.2", prompting=prompting)
+
+        reply  = miner_model.quick_generate(question, max_tokens = max_tokens, timeout = max_response_time)
+        # reply = "Hey, this is some demo text"
+        print("Reply is ", reply)
+        synapse.prompt_output = {"response": reply, "category": category, "tags": tags}
         return synapse
 
     # Step 5: Build and link miner functions to the axon.
@@ -154,14 +186,14 @@ def main( config ):
     # Attach determiners which functions are called when servicing a request.
     bt.logging.info(f"Attaching forward function to axon.")
     axon.attach(
-        forward_fn = dummy,
-        blacklist_fn = blacklist_fn,
+        forward_fn = prompting,
+        # blacklist_fn = blacklist_fn,
         priority_fn = priority_fn,
     )
 
     # Serve passes the axon information to the network + netuid we are hosting on.
     # This will auto-update if the axon port of external ip have changed.
-    bt.logging.info(f"Serving axon {dummy} on network: {config.subtensor.chain_endpoint} with netuid: {config.netuid}")
+    bt.logging.info(f"Serving axon {prompting} on network: {config.subtensor.chain_endpoint} with netuid: {config.netuid}")
     axon.serve( netuid = config.netuid, subtensor = subtensor )
 
     # Start  starts the miner's axon, making it active on the network.
