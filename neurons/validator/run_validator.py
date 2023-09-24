@@ -31,10 +31,10 @@ import bittensor as bt
 # import this repo
 import template
 
-from categories.general_chat.general_chat_config import GeneralChatConfig
-from categories.storytelling.storytelling_config import StoryTellingConfig
-from validator_model.validator_model import ValidatorModel
-from utils.uids_info import AllUidsInfo
+from neurons.validator.categories.general_chat.general_chat_config import GeneralChatConfig
+from neurons.validator.categories.storytelling.storytelling_config import StoryTellingConfig
+from neurons.validator.validator_model.validator_model import ValidatorModel
+from neurons.validator.utils.uids_info import AllUidsInfo
 import random
 
 
@@ -120,7 +120,7 @@ def main( config ):
     step = 0
 
     final_scores_dict = {}
-    validator_model = ValidatorModel(url="http://209.20.158.61:8000/v1/completions",model_name="WizardLM/WizardLM-13B-V1.2")
+    validator_model = ValidatorModel(url=config.url,model_name=config.model_name)
 
     max_uid = max(metagraph.uids)
     uids_info = AllUidsInfo(max_uid)

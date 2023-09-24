@@ -1,9 +1,9 @@
-from utils.random_seed import get_random_seed
-from utils.random_seed_story import get_random_story_seed
+from neurons.validator.utils.random_seed import get_random_seed
+from neurons.validator.utils.random_seed_story import get_random_story_seed
 import math
 import requests
 
-class MinerModel:
+class ValidatorModel:
     def __init__(self, url, model_name, prompting = None):
         self.url = url
         self.model_name = model_name
@@ -21,15 +21,15 @@ class MinerModel:
             self.prompting=prompting
 
 
-    def generate_text(self, input_text, max_tokens=100, temperature = 0.0, timeout=30):
+    def generate_text(self, input_text, max_tokens=100, temperature = 0.0):
 
-        return self.call_endpoint(input_text, max_tokens,temperature=temperature, timeout=timeout)[0]
+        return self.call_endpoint(input_text, max_tokens,temperature=temperature)[0]
 
     
-    def quick_generate(self, prompt, max_tokens = 1000, timeout=30):
+    def quick_generate(self, prompt, max_tokens = 1000):
       prompt = "<prefix><user_start>"+prompt+"<assistant_start>"
       prompt = self.replace_keywords(prompt)
-      return self.generate_text(prompt, max_tokens=max_tokens, temperature=0.7, timeout=timeout)
+      return self.generate_text(prompt, max_tokens=max_tokens, temperature=0.7)
     
 
     def replace_keywords(self,prompt):
@@ -95,7 +95,7 @@ class MinerModel:
         return label_probabilities
 
 
-    def call_endpoint(self, prompt, max_tokens, temperature, n=1, timeout=30):
+    def call_endpoint(self, prompt, max_tokens, temperature, n=1):
 
         data = {
             "model": self.model_name,
@@ -106,7 +106,7 @@ class MinerModel:
             "stop":self.prompting["user_start"],
         }
         
-        response = requests.post(self.url, headers={'Content-Type': 'application/json'}, json=data, timeout=timeout)
+        response = requests.post(self.url, headers={'Content-Type': 'application/json'}, json=data, timeout=30)
         generations = []
         if response.json().get("choices"):
             for d in response.json()["choices"]:

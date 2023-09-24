@@ -1,5 +1,5 @@
-from categories.base_category import BaseCategory
-from categories.storytelling.storytelling_prompts import prompt_generation_prompts, eval_prompt_1, eval_prompt_2, vs_prompt
+from neurons.validator.categories.base_category import BaseCategory
+from neurons.validator.categories.storytelling.storytelling_prompts import prompt_generation_prompts, eval_prompt_1, eval_prompt_2, vs_prompt
 
 class StoryTellingConfig(BaseCategory):
     def __init__(self, validator_model, uids_info):

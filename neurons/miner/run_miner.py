@@ -29,7 +29,7 @@ import bittensor as bt
 
 # import this repo
 import template
-from miner_model.miner_model import MinerModel
+from neurons.miner.api_miner import MinerModel
 
 def get_config():
     # Step 2: Set up the configuration parser
@@ -152,30 +152,7 @@ def main( config ):
         category = config.category
         tags = []
 
-        get_miner_info = synapse.prompt_input['get_miner_info']
-        if get_miner_info:
-            synapse.prompt_output = {'category': category, 'tags': tags}
-            return synapse
-
-        question = synapse.prompt_input['prompt']
-        max_tokens = synapse.prompt_input['max_tokens']
-        max_response_time = synapse.prompt_input['max_response_time']
-
-        prompting = {
-            "prefix":"A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions.",
-            "assistant_start":'\nASSISTANT:',
-            "assistant_end":'</s>',
-
-            "user_start":'\nUSER: ',
-            "user_end":'',
-            }
-
-        miner_model = MinerModel(url="http://209.20.158.61:8000/v1/completions",model_name="WizardLM/WizardLM-13B-V1.2", prompting=prompting)
-
-        reply  = miner_model.quick_generate(question, max_tokens = max_tokens, timeout = max_response_time)
-        # reply = "Hey, this is some demo text"
-        print("Reply is ", reply)
-        synapse.prompt_output = {"response": reply, "category": category, "tags": tags}
+        synapse.prompt_output = {"response": "Hello, this AI is under development.", "category": category, "tags": tags}
         return synapse
 
     # Step 5: Build and link miner functions to the axon.
