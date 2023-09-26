@@ -31,6 +31,12 @@ import bittensor as bt
 # import this repo
 import template
 
+from categories.general_chat.general_chat_config import GeneralChatConfig
+from categories.storytelling.storytelling_config import StoryTellingConfig
+from validator_model.validator_model import ValidatorModel
+from utils.uids_info import AllUidsInfo
+import random
+
 
 # Step 2: Set up the configuration parser
 # This function is responsible for setting up and parsing command-line arguments.
@@ -38,6 +44,8 @@ def get_config():
 
     parser = argparse.ArgumentParser()
     # TODO(developer): Adds your custom validator arguments to the parser.
+    parser.add_argument('--url', type=str, help='The url to use for the validator endpoint.')
+    parser.add_argument('--model_name', type=str, help='The model name to use for the validator.')
     parser.add_argument('--custom', default='my_custom_value', help='Adds a custom value to the parser.')
     # Adds override arguments for network and netuid.
     parser.add_argument( '--netuid', type = int, default = 1, help = "The chain subnet uid." )
@@ -105,62 +113,103 @@ def main( config ):
         bt.logging.info(f"Running validator on uid: {my_subnet_uid}")
 
     # Step 6: Set up initial scoring weights for validation
-    bt.logging.info("Building validation weights.")
-    alpha = 0.9
-    scores = torch.ones_like(metagraph.S, dtype=torch.float32)
-    bt.logging.info(f"Weights: {scores}")
+    # bt.logging.info("Building validation weights.")
+    # scores = torch.ones_like(metagraph.S, dtype=torch.float32)
+    # bt.logging.info(f"Weights: {scores}")
 
     # Step 7: The Main Validation Loop
     bt.logging.info("Starting validator loop.")
     step = 0
+
+    final_scores_dict = {}
+    validator_model = ValidatorModel(url=config.url,model_name=config.model_name)
+
+    max_uid = max(metagraph.uids)
+    uids_info = AllUidsInfo(max_uid + 1)
+
+    categories_config = {
+        "general_chat":GeneralChatConfig(validator_model, uids_info),
+        "story_telling": StoryTellingConfig(validator_model, uids_info)
+    }
+
+    unique_categories = set(categories_config.keys())
+
+    incentive_distribution= {"general_chat":0.6, "storytelling":0.4}
+
     while True:
         try:
+
             # TODO(developer): Define how the validator selects a miner to query, how often, etc.
             # Broadcast a query to all miners on the network.
+
+            # Query miners for categories
             responses = dendrite.query(
                 # Send the query to all axons in the network.
                 metagraph.axons,
-                # Construct a dummy query.
-                template.protocol.Dummy( dummy_input = step ), # Construct a dummy query.
+                # Construct a prompt query.
+                template.protocol.PromptingTemplate( prompt_input = {'get_miner_info': True}),
                 # All responses have the deserialize function called on them before returning.
                 deserialize = True, 
             )
 
+            uids_and_responses = [(int(uid), response) for uid, response in zip(metagraph.uids, responses) if response is not None]
+            responses = [(axon, response) for axon, response in zip(metagraph.axons, responses) if response is not None]
+
+            for category_name in unique_categories:
+                axons = [response[0] for response in responses if response[1]['category'] == category_name]
+
+                if not axons:
+                    continue
+
+                category_uids = [uids_and_response[0] for uids_and_response in uids_and_responses if uids_and_response[1]['category'] == category_name]
+
+                for uid in uids_info.uids:
+                    if uid.uid in category_uids:
+                        uid.category = category_name
+                        print(f'{category_name} category set for uid {uid.uid}')
+
+                category = categories_config[category_name]
+
+                category.forward(dendrite, axons)
+
+                incentive, miners = category.calculate_miner_incentive_score()
+                print(f'Incentive for miner {miners} is {incentive}')
+                incentive = [intc * incentive_distribution[category_name]  for intc in incentive]
+                for idx, miner in enumerate(miners):
+                    final_scores_dict[miner] = incentive[idx]
+
+            final_scores = torch.tensor(list(final_scores_dict.values()))
+            miner_uids = list(final_scores_dict.keys())
+
+            if not miner_uids:
+                continue
+            
             # Log the results for monitoring purposes.
-            bt.logging.info(f"Received dummy responses: {responses}")
-
-            # TODO(developer): Define how the validator scores responses.
-            # Adjust the scores based on responses from miners.
-            for i, resp_i in enumerate(responses):
-                # Initialize the score for the current miner's response.
-                score = 0
-
-                # Check if the miner has provided the correct response by doubling the dummy input.
-                # If correct, set their score for this round to 1.
-                if resp_i == step * 2:
-                    score = 1
-
-                # Update the global score of the miner.
-                # This score contributes to the miner's weight in the network.
-                # A higher weight means that the miner has been consistently responding correctly.
-                scores[i] = alpha * scores[i] + (1 - alpha) * score
+            # bt.logging.info(f"Received dummy responses: {responses}")
 
             # Periodically update the weights on the Bittensor blockchain.
-            if (step + 1) % 2 == 0:
-                # TODO(developer): Define how the validator normalizes scores before setting weights.
-                weights = torch.nn.functional.normalize(scores, p=1.0, dim=0)
-                bt.logging.info(f"Setting weights: {weights}")
-                # This is a crucial step that updates the incentive mechanism on the Bittensor blockchain.
-                # Miners with higher scores (or weights) receive a larger share of TAO rewards on this subnet.
-                result = subtensor.set_weights(
-                    netuid = config.netuid, # Subnet to set weights on.
-                    wallet = wallet, # Wallet to sign set weights using hotkey.
-                    uids = metagraph.uids, # Uids of the miners to set weights for.
-                    weights = weights, # Weights to set for the miners.
-                    wait_for_inclusion = True
-                )
-                if result: bt.logging.success('Successfully set weights.')
-                else: bt.logging.error('Failed to set weights.') 
+
+            # TODO(developer): Define how the validator normalizes scores before setting weights.
+            weights = torch.nn.functional.normalize(final_scores, p=1.0, dim=0)
+            bt.logging.info(f"Setting weights: {weights}")
+            # This is a crucial step that updates the incentive mechanism on the Bittensor blockchain.
+            # Miners with higher scores (or weights) receive a larger share of TAO rewards on this subnet.
+            # result = subtensor.set_weights(
+            #     netuid = config.netuid, # Subnet to set weights on.
+            #     wallet = wallet, # Wallet to sign set weights using hotkey.
+            #     uids = metagraph.uids, # Uids of the miners to set weights for.
+            #     weights = weights, # Weights to set for the miners.
+            #     wait_for_inclusion = True
+            # )
+            result = subtensor.set_weights(
+                netuid = config.netuid, # Subnet to set weights on.
+                wallet = wallet, # Wallet to sign set weights using hotkey.
+                uids = miner_uids, # Uids of the miners to set weights for.
+                weights = weights, # Weights to set for the miners.
+                wait_for_inclusion = True
+            )
+            if result: bt.logging.success('Successfully set weights.')
+            else: bt.logging.error('Failed to set weights.') 
 
             # End the current step and prepare for the next iteration.
             step += 1
