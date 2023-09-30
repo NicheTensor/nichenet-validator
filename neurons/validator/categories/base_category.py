@@ -2,14 +2,17 @@ import random
 import template
 
 class BaseCategory:
-    def __init__(self, validator_model, uids_info):
+    def __init__(self, validator_model, uids_info, validator_session):
+
+        self.validator_model = validator_model
+        self.uids_info = uids_info
+        self.validator_session = validator_session
+
         self.prompt_generation_prompts = []
         self.evaluation_prompts = []
         self.vs_prompt = {}
         self.category_name="BaseCategory"
 
-        self.validator_model = validator_model
-        self.uids_info = uids_info
 
         self.synergy_based_on_rank, self.synergy_weights = self.create_synergy_based_on_rank()
         self.validator_elo_score_weights = self.create_validator_elo_score_weights()
@@ -120,7 +123,7 @@ class BaseCategory:
         
         return valid_responses, valid_responses_uids
 
-    def forward(self, dendrite, axons):
+    def forward(self, call_uids):
         
         uids_to_query = self.uids_info.get_category(self.category_name)
         print("uids_to_query", uids_to_query)
@@ -136,11 +139,7 @@ class BaseCategory:
             'get_miner_info': False,
         }
 
-        prompt_outputs = dendrite.query(
-            axons,
-            template.protocol.PromptingTemplate( prompt_input = prompt_input),
-            deserialize = True,
-        )
+        prompt_outputs = call_uids(uids_to_query, prompt_input)
 
         print("Prompt outputs", prompt_outputs)
 
