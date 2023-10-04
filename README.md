@@ -66,8 +66,6 @@ python -m neurons/miner.py
 
 # To run the validator
 python -m neurons/validator.py 
-    --url <validator endpoint url> # The api endpoint url of your validator, must be publicly accessible
-    --model_name <validator model name> # The name of your validator model
     --netuid <your netuid> # Must be attained by following the instructions in the docs/running_on_*.md files
     --subtensor.chain_endpoint <your chain url> # Must be attained by following the instructions in the docs/running_on_*.md files
     --wallet.name <your validator wallet>  # Must be created using the bittensor-cli
