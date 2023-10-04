@@ -107,6 +107,10 @@ class AllUidsInfo:
                 uids_of_category.append(uid.uid)
         return uids_of_category
 
+    def set_category_for_uids(self, uids, category_name):
+        for uid in self.uids:
+            if int(uid.uid) in uids:
+                uid.category = category_name
     
     def update_validator_elo(self, uids_to_update, scores, k=16):
         for i, uid in enumerate(uids_to_update):
@@ -167,9 +171,6 @@ class AllUidsInfo:
         for i, uid in enumerate(uids_to_update):
             rank = all_ranks[i]
             self.update_list(self.uids[uid].past_rankings, rank)
-
-    def get_category(self, category_name):
-        return [uid.uid for uid in self.uids if uid.category == category_name]
 
 
     

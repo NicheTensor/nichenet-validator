@@ -47,10 +47,8 @@ def get_config():
     parser.add_argument('--custom', default='my_custom_value', help='Adds a custom value to the parser.')
     # Adds override arguments for network and netuid.
     parser.add_argument( '--netuid', type = int, default = 1, help = "The chain subnet uid." )
-    # Adds override arguments for network and netuid.
     parser.add_argument( '--model.url', type = str, default = None, help = "The url of the model endpoint." )
-    # Adds override arguments for network and netuid.
-    parser.add_argument( '--model.name', type = str, default = None, help = "The chain subnet uid." )
+    parser.add_argument( '--model.name', type = str, default = None, help = "The name of model" )
     # Adds subtensor specific arguments i.e. --subtensor.chain_endpoint ... --subtensor.network ...
     bt.subtensor.add_args(parser)
     # Adds logging specific arguments i.e. --logging.debug ..., --logging.trace .. or --logging.logging_dir ...
@@ -85,8 +83,9 @@ class ValidatorSession:
         self.config = config
         self.wallet, self.subtensor, self.dendrite, self.metagraph, self.my_subnet_uid = self.setup()
 
-        self.validator_model = ValidatorModel(url=config.url, model_name=config.model_name)
+        self.validator_model = ValidatorModel(url=self.config.model.url, model_name=self.config.model.name)
         self.max_uid = max(self.metagraph.uids)
+        self.all_uids = [int(uid) for uid in self.metagraph.uids]
         self.uids_info = AllUidsInfo(self.max_uid)
         self.setup_categories_config()
         self.final_scores_dict = {}
@@ -94,21 +93,21 @@ class ValidatorSession:
 
     def setup(self):
         # Set up logging with the provided configuration and directory.
-        bt.logging(config=config, logging_dir=config.full_path)
-        bt.logging.info(f"Running validator for subnet: {config.netuid} on network: {config.subtensor.chain_endpoint} with config:")
+        bt.logging(config=self.config, logging_dir=self.config.full_path)
+        bt.logging.info(f"Running validator for subnet: {self.config.netuid} on network: {self.config.subtensor.chain_endpoint} with config:")
         # Log the configuration for reference.
-        bt.logging.info(config)
+        bt.logging.info(self.config)
 
         # Step 4: Build Bittensor validator objects
         # These are core Bittensor classes to interact with the network.
         bt.logging.info("Setting up bittensor objects.")
 
         # The wallet holds the cryptographic key pairs for the validator.
-        wallet = bt.wallet( config = config )
+        wallet = bt.wallet( config = self.config )
         bt.logging.info(f"Wallet: {wallet}")
 
         # The subtensor is our connection to the Bittensor blockchain.
-        subtensor = bt.subtensor( config = config )
+        subtensor = bt.subtensor( config = self.config )
         bt.logging.info(f"Subtensor: {subtensor}")
 
         # Dendrite is the RPC client; it lets us send messages to other nodes (axons) in the network.
@@ -116,7 +115,7 @@ class ValidatorSession:
         bt.logging.info(f"Dendrite: {dendrite}")
 
         # The metagraph holds the state of the network, letting us know about other miners.
-        metagraph = subtensor.metagraph( config.netuid )
+        metagraph = subtensor.metagraph( self.config.netuid )
         bt.logging.info(f"Metagraph: {metagraph}")
 
         # Step 5: Connect the validator to the network
@@ -145,10 +144,12 @@ class ValidatorSession:
         self.incentive_distribution = {"general_chat": 0.6, "story_telling": 0.4}
 
 
-    def call_uids(self, uids, payload, template_type = None):
+    def call_uids(self, query_uids, payload, template_type = None):
 
-        all_axons = self.metagraph.axons
-        axons_to_query = [all_axons[uid] for uid in uids]
+        uid_to_axon = dict(zip(self.all_uids, self.metagraph.axons))
+        query_axons = [uid_to_axon[int(uid)] for uid in query_uids]
+
+        print("Query axons", query_axons)
 
         if template_type == None:
             protocol_payload = template.protocol.PromptingTemplate( prompt_input = payload)
@@ -157,7 +158,7 @@ class ValidatorSession:
 
         response = self.dendrite.query(
             # Send the query to all axons in the network.
-            axons_to_query,
+            query_axons,
             # Construct a prompt query.
             protocol_payload,
             # All responses have the deserialize function called on them before returning.
@@ -169,26 +170,19 @@ class ValidatorSession:
     def forward(self):
 
         # Query miners for categories
-        all_axons = self.metagraph.axons
-        all_uids = self.metagraph.uids
-        
         payload = {'get_miner_info': True}
-        category_responses = self.call_uids(all_uids, payload)
+        category_responses = self.call_uids(self.all_uids, payload)
 
-        uids_and_responses = [(int(uid), response) for uid, response in zip(all_uids, category_responses) if response is not None]
-
+        uids_and_responses = [(int(uid), response) for uid, response in zip(self.all_uids, category_responses) if response is not None]
+        
         for category_name in self.unique_categories:
             category_uids = [uids_and_response[0] for uids_and_response in uids_and_responses if uids_and_response[1]['category'] == category_name]
-
-            for uid in self.uids_info.uids:
-                if uid.uid in category_uids:
-                    uid.category = category_name
-                    print(f'{category_name} category set for uid {uid.uid}')
+            self.uids_info.set_category_for_uids(category_uids, category_name)
 
         #Valdiate all categories
         for category_name in self.unique_categories:
             category = self.categories_config[category_name]
-            
+    
             category.forward(self.call_uids)
 
         self.set_weights()
@@ -241,9 +235,10 @@ class ValidatorSession:
                 self.set_weights()
 
                 # End the current step and prepare for the next iteration.
-                step += 1
+                # step += 1
+
                 # Resync our local state with the latest state from the blockchain.
-                self.metagraph = self.subtensor.metagraph(config.netuid)
+                self.metagraph = self.subtensor.metagraph(self.config.netuid)
                 # Sleep for a duration equivalent to the block time (i.e., time between successive blocks).
                 time.sleep(bt.__blocktime__)
 
@@ -267,4 +262,4 @@ if __name__ == "__main__":
     session = ValidatorSession(config)
 
     # Run the main function.
-    session.run_validation( config )
+    session.run_validation()

@@ -125,21 +125,20 @@ class BaseCategory:
 
     def forward(self, call_uids):
         
-        uids_to_query = self.uids_info.get_category(self.category_name)
-        print("uids_to_query", uids_to_query)
+        uids_to_query = self.uids_info.get_uids_for_category(self.category_name)
         testing_prompt = self.generate_testing_prompt()
 
         max_tokens = 20
         max_response_time = 30
 
-        prompt_input = {
+        payload = {
             'prompt': testing_prompt,
             'max_tokens': max_tokens,
             'max_response_time': max_response_time,
             'get_miner_info': False,
         }
 
-        prompt_outputs = call_uids(uids_to_query, prompt_input)
+        prompt_outputs = call_uids(uids_to_query, payload)
 
         print("Prompt outputs", prompt_outputs)
 
