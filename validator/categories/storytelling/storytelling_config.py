@@ -1,13 +1,13 @@
-from neurons.validator.categories.base_category import BaseCategory
-from neurons.validator.categories.general_chat.general_chat_prompts import vs_prompt, eval_prompt_1, eval_prompt_2, prompt_generation_prompts
+from validator.categories.base_category import BaseCategory
+from validator.categories.storytelling.storytelling_prompts import prompt_generation_prompts, eval_prompt_1, eval_prompt_2, vs_prompt
 
-class GeneralChatConfig(BaseCategory):
+class StoryTellingConfig(BaseCategory):
     def __init__(self, validator_model, uids_info, validator_session):
         super().__init__(validator_model, uids_info, validator_session)
-        
+
         self.prompt_generation_prompts = prompt_generation_prompts
 
-        self.evaluation_prompts = [eval_prompt_1, eval_prompt_2]
+        self.evaluation_prompts = [eval_prompt_1, eval_prompt_2] # , eval_prompt_2
         self.evaluation_label_pass = "True"
         self.evaluation_label_fail = "False"
 
@@ -17,4 +17,4 @@ class GeneralChatConfig(BaseCategory):
             "label_second_winner":"2",
         }
 
-        self.category_name="general_chat"
+        self.category_name="story_telling"

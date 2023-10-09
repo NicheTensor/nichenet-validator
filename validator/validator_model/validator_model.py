@@ -1,5 +1,5 @@
-from neurons.validator.utils.random_seed import get_random_seed
-from neurons.validator.utils.random_seed_story import get_random_story_seed
+from validator.utils.random_seed import get_random_seed
+from validator.utils.random_seed_story import get_random_story_seed
 import math
 import requests
 
@@ -23,7 +23,8 @@ class ValidatorModel:
 
     def generate_text(self, input_text, max_tokens=100, temperature = 0.0):
 
-        return self.call_endpoint(input_text, max_tokens,temperature=temperature)[0]
+        generations = self.call_endpoint(input_text, max_tokens,temperature=temperature)
+        return generations[0]
 
     
     def quick_generate(self, prompt, max_tokens = 1000):
@@ -62,7 +63,7 @@ class ValidatorModel:
             "logprobs":len(labels) + 5,
         }
         response = requests.post(self.url, headers={'Content-Type': 'application/json'}, json=data, timeout=30)
-        print("""response.json()["choices"][0]""", response.json()["choices"][0])
+        # print("""response.json()["choices"][0]""", response.json()["choices"][0])
         logprobs = response.json()["choices"][0]["logprobs"]["top_logprobs"][0]
 
         # Convert log probabilities to logits (using some math tricks)
@@ -107,13 +108,16 @@ class ValidatorModel:
         }
         
         response = requests.post(self.url, headers={'Content-Type': 'application/json'}, json=data, timeout=30)
+
+        if response.status_code != 200:
+            raise ValueError(f'Validator model.url {self.url} responded with status ', response.status)
+
         generations = []
         if response.json().get("choices"):
             for d in response.json()["choices"]:
                 generations.append(d["text"])
 
-        print("Prompt:\n", prompt)
-        for item in generations:
-            print("Completion:", item," <end>")
+        if len(generations) == 0:
+            raise ValueError(f'Validator model.url {self.url} is not configured correctly.')
 
         return generations

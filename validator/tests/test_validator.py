@@ -1,6 +1,7 @@
-from neurons.validator.categories.general_chat.general_chat_config import GeneralChatConfig
-from neurons.validator.validator_model.validator_model import ValidatorModel
-from neurons.validator.utils.uids_info import AllUidsInfo
+from validator.categories.general_chat.general_chat_config import GeneralChatConfig
+from validator.categories.storytelling.storytelling_config import StoryTellingConfig
+from validator.validator_model.validator_model import ValidatorModel
+from validator.utils.uids_info import AllUidsInfo
 
 
 
@@ -21,29 +22,24 @@ uids_info = AllUidsInfo(3)
 
 categories_config = {
     "general_chat_config":GeneralChatConfig(validator_model, uids_info),
+    "storytelling_config":StoryTellingConfig(validator_model, uids_info)
 }
 
+category = categories_config["storytelling_config"]
 
+testing_prompts = category.generate_testing_prompts()
 
+question = testing_prompts[0]
 
-
-category = categories_config["general_chat_config"]
-
-
-testing_promompts = category.generate_testing_prompts()
-
-question = testing_promompts[0]
-reply = validator_model.quick_generate(question, max_tokens = 500)
-
+reply = validator_model.quick_generate(question, max_tokens = 1000)
 evals = category.evaluate_response(question, reply)
 
 print("\n\nPrompts")
-for item in testing_promompts:
-    print(item)
+for i, item in enumerate(testing_prompts):
+    print(str(i) + ". " + item)
 
 print("\n\nAnswer")
 print(reply)
 
 print("\n\nEvals:")
 print(evals)
-

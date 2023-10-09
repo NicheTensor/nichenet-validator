@@ -1,7 +1,7 @@
-from neurons.validator.categories.general_chat.general_chat_config import GeneralChatConfig
-from neurons.validator.categories.storytelling.storytelling_config import StoryTellingConfig
-from neurons.validator.validator_model.validator_model import ValidatorModel
-from neurons.validator.utils.uids_info import AllUidsInfo
+from validator.categories.general_chat.general_chat_config import GeneralChatConfig
+from validator.categories.storytelling.storytelling_config import StoryTellingConfig
+from validator.validator_model.validator_model import ValidatorModel
+from validator.utils.uids_info import AllUidsInfo
 import random
 
 

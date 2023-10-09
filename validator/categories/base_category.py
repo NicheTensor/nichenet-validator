@@ -1,15 +1,18 @@
 import random
-import template
+import bittensor as bt
 
 class BaseCategory:
-    def __init__(self, validator_model, uids_info):
+    def __init__(self, validator_model, uids_info, validator_session):
+
+        self.validator_model = validator_model
+        self.uids_info = uids_info
+        self.validator_session = validator_session
+
         self.prompt_generation_prompts = []
         self.evaluation_prompts = []
         self.vs_prompt = {}
         self.category_name="BaseCategory"
 
-        self.validator_model = validator_model
-        self.uids_info = uids_info
 
         self.synergy_based_on_rank, self.synergy_weights = self.create_synergy_based_on_rank()
         self.validator_elo_score_weights = self.create_validator_elo_score_weights()
@@ -20,7 +23,10 @@ class BaseCategory:
         self.max_incentivized_miners = 100
 
         self.questions_token_limit = 300
-        self.response_character_limit = 2000
+        self.answer_token_limit = 1000 # max response tokens to generate by miner/validator
+        
+        self.response_character_limit = 2000 # first 2000 characters of response
+        self.max_response_time = 12
 
         self.prompt_index = 0
 
@@ -106,7 +112,6 @@ class BaseCategory:
 
     
     def get_valid_responses(self, responses, uids_to_query):
-        #Filter based on if responded, then based on
         valid_responses_uids = []
         valid_responses = []
 
@@ -120,42 +125,44 @@ class BaseCategory:
         
         return valid_responses, valid_responses_uids
 
-    def forward(self, dendrite, axons):
+    def forward(self, call_uids):
         
-        uids_to_query = self.uids_info.get_category(self.category_name)
-        print("uids_to_query", uids_to_query)
+        uids_to_query = self.uids_info.get_uids_for_category(self.category_name)
         testing_prompt = self.generate_testing_prompt()
 
-        max_tokens = 20
-        max_response_time = 30
-
-        prompt_input = {
+        payload = {
             'prompt': testing_prompt,
-            'max_tokens': max_tokens,
-            'max_response_time': max_response_time,
+            'max_tokens': self.answer_token_limit,
+            'max_response_time': self.max_response_time,
             'get_miner_info': False,
         }
 
-        prompt_outputs = dendrite.query(
-            axons,
-            template.protocol.PromptingTemplate( prompt_input = prompt_input),
-            deserialize = True,
-        )
+        miners_response = call_uids(uids_to_query, payload)
 
-        print("Prompt outputs", prompt_outputs)
+        responses = []
+        for idx, miner_response in enumerate(miners_response):
+            try:
+                responses.append(miner_response['response'])
+            except:
+                # Add a warning
+                bt.logging.warning(f"Miner running on uid {uids_to_query[idx]} did not responded for text generation query. Skipping this miner.")
+                # Remove the uid from the list of uids to query
+                uids_to_query.remove(uids_to_query[idx])
+                continue
 
-        responses = [prompt_output['response'] for prompt_output in prompt_outputs]
+        if not responses:
+            bt.logging.warning(f"No response recieved from any miner with category {self.category_name} for the input prompt. Skipping setting weights for {self.category_name}")
+            return False
 
-        # Catch None response
-
-        # responses = None #query uids
         valid_responses, valid_responses_uids = self.get_valid_responses(responses, uids_to_query)
         filtered_responses, filtered_responses_uids = self.filter_responses(testing_prompt, valid_responses, valid_responses_uids)
 
-        validator_response = self.validator_model.quick_generate(testing_prompt, max_tokens=max_tokens)
+        validator_response = self.validator_model.quick_generate(testing_prompt, max_tokens=self.answer_token_limit)
         scores = self.score_responses( testing_prompt, filtered_responses, validator_response)
 
         self.update_uid_info(uids_to_query, valid_responses_uids, filtered_responses_uids, scores)
+
+        return True
 
     def rank_indices(self, lst):
         """Return a list with the ranking of each element."""
@@ -243,9 +250,9 @@ class BaseCategory:
 
         for uid in uids:
             synergy = self.calculate_synergy_wma( self.uids_info.uids[uid].past_synergies )
-            print("Syngergy", synergy)
+            # print("Syngergy", synergy)
             synergies.append(synergy)
-        print("Synergies", synergies)
+        # print("Synergies", synergies)
         synergies = self.normalize(synergies)
         return synergies
 
