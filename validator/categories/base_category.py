@@ -145,13 +145,13 @@ class BaseCategory:
                 responses.append(miner_response['response'])
             except:
                 # Add a warning
-                bt.logging.warning(f"Miner running on uid {uids_to_query[idx]} did not responded for text generation query. Skipping this miner.")
+                bt.logging.warning(f"Miner running on uid {uids_to_query[idx]} responded {miner_response} for text generation query. Skipping this miner.")
                 # Remove the uid from the list of uids to query
                 uids_to_query.remove(uids_to_query[idx])
                 continue
 
         if not responses:
-            bt.logging.warning(f"No response recieved from any miner with category {self.category_name} for the input prompt. Skipping setting weights for {self.category_name}")
+            bt.logging.warning(f"No proper response recieved from any miner with category {self.category_name} for the input prompt. Skipping setting weights for {self.category_name}")
             return False
 
         valid_responses, valid_responses_uids = self.get_valid_responses(responses, uids_to_query)

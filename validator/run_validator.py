@@ -215,7 +215,9 @@ class ValidatorSession:
                 # Resync our local state with the latest state from the blockchain.
                 self.metagraph = self.subtensor.metagraph(self.config.netuid)
                 # Sleep for a duration equivalent to the block time (i.e., time between successive blocks).
-                time.sleep(bt.__blocktime__)
+                sleep_blocks = 100
+                bt.logging.info(f"Sleeping for {sleep_blocks * bt.__blocktime__} seconds.")
+                time.sleep(bt.__blocktime__*sleep_blocks)
 
             # If we encounter an unexpected error, log it for debugging.
             except RuntimeError as e:
