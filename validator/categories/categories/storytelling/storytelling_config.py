@@ -1,5 +1,6 @@
 from validator.categories.base_category import BaseCategory
 from validator.categories.storytelling.storytelling_prompts import prompt_generation_prompts, eval_prompt_1, eval_prompt_2, vs_prompt
+from validator.categories.storytelling.random_seed import get_random_seeds
 
 class StoryTellingConfig(BaseCategory):
     def __init__(self, validator_model, uids_info, validator_session):
@@ -18,3 +19,9 @@ class StoryTellingConfig(BaseCategory):
         }
 
         self.category_name="story_telling"
+
+    def replace_keywords(self, text):
+         text = text.replace("<seed>",get_random_seeds(1))
+         text = text.replace("<seeds>",get_random_seeds(2))
+         text = text.replace("<seeds3>",get_random_seeds(3))
+         return text

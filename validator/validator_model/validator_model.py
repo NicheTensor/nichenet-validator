@@ -1,59 +1,10 @@
-from validator.utils.random_seed import get_random_seed
-from validator.utils.random_seed_story import get_random_story_seed
 import math
-import requests
 
 class ValidatorModel:
-    def __init__(self, url, model_name, prompting = None):
-        self.url = url
-        self.model_name = model_name
+    def __init__(self, generator=None):
 
-        if prompting == None:
-            self.prompting = {
-                "prefix":"A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions.",
-                "assistant_start":'\nASSISTANT:',
-                "assistant_end":'</s>',
-
-                "user_start":'\nUSER: ',
-                "user_end":'',
-                }
-        else:
-            self.prompting=prompting
-
-
-    def generate_text(self, input_text, max_tokens=100, temperature = 0.0):
-
-        generations = self.call_endpoint(input_text, max_tokens,temperature=temperature)
-        return generations[0]
-
+        self.generator=generator
     
-    def quick_generate(self, prompt, max_tokens = 1000):
-      prompt = "<prefix><user_start>"+prompt+"<assistant_start>"
-      prompt = self.replace_keywords(prompt)
-      return self.generate_text(prompt, max_tokens=max_tokens, temperature=0.7)
-    
-
-    def replace_keywords(self,prompt):
-
-        prompt = prompt.replace("<prefix>",self.prompting["prefix"])
-
-        prompt = prompt.replace("<assistant_start>",self.prompting["assistant_start"])
-        prompt = prompt.replace("<assistant_end>",self.prompting["assistant_end"])
-
-        prompt = prompt.replace("<user_start>",self.prompting["user_start"])
-        prompt = prompt.replace("<user_end>",self.prompting["user_end"])
-
-        prompt = prompt.replace("<seed>",get_random_seed(1))
-        prompt = prompt.replace("<seeds>",get_random_seed(2))
-        prompt = prompt.replace("<seeds3>",get_random_seed(3))
-
-        prompt = prompt.replace("<storyseed>", get_random_story_seed(1))
-        prompt = prompt.replace("<storyseeds>", get_random_story_seed(2))
-        prompt = prompt.replace("<storyseeds3>", get_random_story_seed(3))
-
-        return prompt
-    
-
     def probability_of_labels(self, prompt, max_tokens, labels):
         data = {
             "model": self.model_name,
@@ -62,7 +13,7 @@ class ValidatorModel:
             "stop":self.prompting["user_start"],
             "logprobs":len(labels) + 5,
         }
-        response = requests.post(self.url, headers={'Content-Type': 'application/json'}, json=data, timeout=30)
+        response = self.generator.query(data, timeout=30)
         # print("""response.json()["choices"][0]""", response.json()["choices"][0])
         logprobs = response.json()["choices"][0]["logprobs"]["top_logprobs"][0]
 
@@ -95,8 +46,11 @@ class ValidatorModel:
 
         return label_probabilities
 
+    def quick_generate(self, prompt, max_tokens = 500):
+      prompt = "<prefix><user_start>"+prompt+"<assistant_start>"
+      return self.generate_text(prompt, max_tokens=max_tokens, temperature=0.7)
 
-    def call_endpoint(self, prompt, max_tokens, temperature, n=1):
+    def generate_text(self, prompt, max_tokens=100, temperature=0, n=1):
 
         data = {
             "model": self.model_name,
@@ -107,7 +61,7 @@ class ValidatorModel:
             "stop":self.prompting["user_start"],
         }
         
-        response = requests.post(self.url, headers={'Content-Type': 'application/json'}, json=data, timeout=30)
+        response = self.generator.query(data, timeout=30)
 
         if response.status_code != 200:
             raise ValueError(f'Validator model.url {self.url} responded with status ', response.status)

@@ -1,36 +1,32 @@
-vs_prompt = """
-<prefix><user_start>I want you to create a leaderboard of different of large-language models. To do so, I will give you the instructions (prompts) given to the models, and the responses of two models. Please rank the models based on which responses would be preferred by humans. All inputs and outputs should be python dictionaries.
 
-Here is the prompt:
+
+vs_prompt = """<prefix><user_start>Here is a prompt:
 {
-    "instruction": \"""<question>\""",
+    "instruction": \"""question_full\""",
 }
 
 Here are the outputs of the models:
 [
     {
-        "model": "1",
-        "answer": \"""<response1>\"""
+        "model": 1,
+        "answer": \"""answer_1\"""
     },
     {
-        "model": "2",
-        "answer": \"""<response2>\"""
+        "model": 2,
+        "answer": \"""answer_2\"""
     }
 ]
 
-Now please rank the models by the quality of their answers, so that the model with rank 1 has the best output. Then return a list of the model names and ranks, i.e., produce the following output:
-[
-    {'model': <model-name>, 'rank': <model-rank>},
-    {'model': <model-name>, 'rank': <model-rank>}
-]
+Please create a dict containting the highest quality answer, i.e., produce the following output:
 
-Your response must be a valid Python dictionary and should contain nothing else because we will directly execute it in Python. Please provide the ranking that the majority of humans would give.
-<assistant_start>[
-    {'model': '
-    
-""".strip()
+{
+  'best_model': <model-name>
+}
 
+Please provide the response that the majority of humans would consider better.
 
+<assistant_start>{
+  'best_model': """
 eval_prompt_1 = """<prefix><user_start>An AI model got asked the following question:
 {
     "instruction": "<question>"

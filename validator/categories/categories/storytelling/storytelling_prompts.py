@@ -92,12 +92,12 @@ Your response must be a valid Python dictionary and should contain nothing else 
 
 prompt_generation_prompts = [
             '''<prefix><user_start>You are an expert prompt engineer. Your task is to create high quality & concise prompts which are then given to AI for generating quality results.\nYou start with this simple prompt:\n
-            "I am seeking your help to generate a compelling narrative based on a set of carefully chosen keywords and seed that I wll provide. The story should be around 500 words in length, striking a balance between brevity and depth. The keywords and seeds are in 6 different categories as in:\n<storyseeds>."
+            "I am seeking your help to generate a compelling narrative based on a set of carefully chosen keywords and seed that I wll provide. The story should be around 500 words in length, striking a balance between brevity and depth. The keywords and seeds are in 6 different categories as in:\n<seeds>."
             \nYour improved high quality prompt would be:\n<assistant_start>
             ''',
             '''
             <prefix><user_start>Consider yourself as an expert prompt creator. Your goal is to help me craft the best possible prompt which are then given to AI for generating quality results. The prompt should include instructions to write the output using my communication style.
             The goal is to create a prompt that tell AI to generate a captivating short story of 500 words long and maintain a coherent narrative with the following keywords or inputs:\n
-            <storyseeds>.\nRemember to keep the prompt around 500 characters and concise. This prompt will be directly fed to AI therefore cleary tell to write a story in your prompt.\n Prompt:\n<assistant_start>
+            <seeds>.\nRemember to keep the prompt around 500 characters and concise. This prompt will be directly fed to AI therefore cleary tell to write a story in your prompt.\n Prompt:\n<assistant_start>
             '''
         ]

@@ -9,7 +9,14 @@ import template
 
 from validator.categories.general_chat.general_chat_config import GeneralChatConfig
 from validator.categories.storytelling.storytelling_config import StoryTellingConfig
+
 from validator.validator_model.validator_model import ValidatorModel
+from validator.validator_model.generator_model import URLModel
+from validator.validator_model.network_model import NetworkModel
+
+from validator.categories.viche_model.network_generator import NetworkGenerator
+
+
 from validator.utils.uids_info import AllUidsInfo
 from validator.utils.weights import process_weights
 
@@ -20,6 +27,7 @@ def get_config():
     parser.add_argument( '--netuid', type = int, default = 1, help = "The chain subnet uid." )
     parser.add_argument( '--model.url', type = str, default = None, help = "The url of the model endpoint." )
     parser.add_argument( '--model.name', type = str, default = None, help = "The name of model" )
+    parser.add_argument( '--confirmation_url', type = str, default = "http://fixed_model.nichetensor.com:8008", help = "URL to test fixed model" )
 
     # Adds subtensor specific arguments i.e. --subtensor.chain_endpoint ... --subtensor.network ...
     bt.subtensor.add_args(parser)
@@ -54,11 +62,14 @@ class ValidatorSession:
         self.config = config
         self.wallet, self.subtensor, self.dendrite, self.metagraph = self.setup()
 
-        if config.model.url is None or config.model.name is None:
-            bt.logging.error("Please specify --model.url and --model.name for the validator")
-            exit()
+        if config.model.url is None:
+            bt.logging("Defaulting to use network for validation since --model.url or --model.name was not specified")
+            generator = NetworkGenerator()
+        else:
+            generator = URLModel(url=self.config.model.url, model_name=self.config.model.name)
 
-        self.validator_model = ValidatorModel(url=self.config.model.url, model_name=self.config.model.name)
+
+        self.validator_model = ValidatorModel(generator=generator)
         self.max_uid = max(self.metagraph.uids)
 
         self.all_uids = [int(uid) for uid in self.metagraph.uids]

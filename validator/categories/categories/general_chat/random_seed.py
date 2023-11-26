@@ -214,18 +214,18 @@ common_words=[
 'resource',
 ]
 
-def get_random_seed(number_of_seeded_words = 1):
+def get_random_seeds(number_of_seeded_words = 1):
     random_seed = []
     for i in range(number_of_seeded_words):
         if random.random() > 0.8:
             random_seed = random_seed + get_random_full_name()
         else:
-            random_seed = random_seed + get_random_word()
+            random_seed = random_seed + get_random_words()
     random_seed = ", ".join(random_seed)
     return random_seed
 
 
-def get_random_word(n=1):
+def get_random_words(n=1):
     random_common_words = []
     # Generate a random word
     for i in range(n):

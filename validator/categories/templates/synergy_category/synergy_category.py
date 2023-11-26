@@ -1,17 +1,15 @@
 import random
-import bittensor as bt
+from validator.categories.templates.template_category import TemplateCategory
+from validator.categories.templates.synergy_category.random_seed import get_random_seeds
 
-class BaseCategory:
+class SynergyCategory(TemplateCategory):
     def __init__(self, validator_model, uids_info, validator_session):
-
-        self.validator_model = validator_model
-        self.uids_info = uids_info
-        self.validator_session = validator_session
+        super().__init__(validator_model, uids_info, validator_session)
 
         self.prompt_generation_prompts = []
         self.evaluation_prompts = []
         self.vs_prompt = {}
-        self.category_name="BaseCategory"
+        self.category_name="SynergyCategory"
 
 
         self.synergy_based_on_rank, self.synergy_weights = self.create_synergy_based_on_rank()
@@ -70,9 +68,16 @@ class BaseCategory:
             prompt_index = self.prompt_index
             self.prompt_index = self.prompt_index % len(self.prompt_generation_prompts)
         prompt = self.prompt_generation_prompts[prompt_index]
-        prompt = self.validator_model.replace_keywords(prompt)
+        prompt = self.replace_keywords(prompt)
         testing_prompt = self.validator_model.generate_text(prompt, self.questions_token_limit, temperature=0.7)
         return testing_prompt
+    
+
+    def replace_keywords(self, text):
+         text = text.replace("<seed>",get_random_seeds(1))
+         text = text.replace("<seeds>",get_random_seeds(2))
+         text = text.replace("<seeds3>",get_random_seeds(3))
+         return text
     
 
 
@@ -83,7 +88,7 @@ class BaseCategory:
         
         for prompt in self.evaluation_prompts:
             
-            prompt = self.validator_model.replace_keywords(prompt)
+            prompt = self.replace_keywords(prompt)
             prompt = prompt.replace("<question>", question).replace("<response>", response)
             label_probabilities = self.validator_model.probability_of_labels(prompt, max_tokens=1, labels=labels)
 
@@ -137,21 +142,21 @@ class BaseCategory:
             'get_miner_info': False,
         }
 
-        miners_response = call_uids(uids_to_query, payload)
+        miners_responses = call_uids(uids_to_query, payload)
 
         responses = []
-        for idx, miner_response in enumerate(miners_response):
+        for idx, miner_response in enumerate(miners_responses):
             try:
                 responses.append(miner_response['response'])
             except:
                 # Add a warning
-                bt.logging.warning(f"Miner running on uid {uids_to_query[idx]} responded {miner_response} for text generation query. Skipping this miner.")
+                # bt.logging.warning(f"Miner running on uid {uids_to_query[idx]} responded {miner_response} for text generation query. Skipping this miner.")
                 # Remove the uid from the list of uids to query
                 uids_to_query.remove(uids_to_query[idx])
                 continue
 
         if not responses:
-            bt.logging.warning(f"No proper response recieved from any miner with category {self.category_name} for the input prompt. Skipping setting weights for {self.category_name}")
+            # bt.logging.warning(f"No proper response recieved from any miner with category {self.category_name} for the input prompt. Skipping setting weights for {self.category_name}")
             return False
 
         valid_responses, valid_responses_uids = self.get_valid_responses(responses, uids_to_query)
@@ -315,7 +320,7 @@ class BaseCategory:
         sum_probabilities = [0, 0]
 
         for reverse in [False, True]:
-            prompt = self.validator_model.replace_keywords(self.vs_prompt["prompt"])
+            prompt = self.vs_prompt["prompt"]
 
             response_order = (response_1, response_2) if not reverse else (response_2, response_1)
             prompt = prompt.replace("<question>", question).replace("<response1>", response_order[0]).replace("<response2>", response_order[1])
