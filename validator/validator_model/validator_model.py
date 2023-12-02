@@ -53,7 +53,7 @@ class ValidatorModel:
     def generate_text(self, prompt, max_tokens=100, temperature=0, n=1):
 
         data = {
-            "model": self.model_name,
+            "model": self.generator.model_name,
             "prompt": prompt,
             "max_tokens": max_tokens,
             "temperature": temperature,
