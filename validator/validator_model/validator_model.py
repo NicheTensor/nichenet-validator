@@ -7,10 +7,10 @@ class ValidatorModel:
     
     def probability_of_labels(self, prompt, max_tokens, labels):
         data = {
-            "model": self.model_name,
+            "model": self.generator.model_name,
             "prompt": prompt,
             "max_tokens": max_tokens,
-            "stop":self.prompting["user_start"],
+            "stop":self.generator.prompting["user_start"],
             "logprobs":len(labels) + 5,
         }
         response = self.generator.query(data, timeout=30)
