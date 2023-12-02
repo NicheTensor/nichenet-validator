@@ -21,7 +21,7 @@ validator_model = ValidatorModel(generator=generator)
 uids_info = AllUidsInfo(3)
 
 categories_config = {
-    "general_chat_config":GeneralChatConfig(validator_model, uids_info),
+    "general_chat_config":GeneralChatConfig(validator_model, uids_info, None),
 }
 
 
