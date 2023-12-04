@@ -10,7 +10,7 @@ class ValidatorModel:
             "model": self.generator.model_name,
             "prompt": prompt,
             "max_tokens": max_tokens,
-            "stop":self.generator.prompting["user_start"],
+            "stop":self.generator.prompting["<user_start>"],
             "logprobs":len(labels) + 5,
         }
         response = self.generator.query(data, timeout=30)
@@ -52,13 +52,20 @@ class ValidatorModel:
 
     def generate_text(self, prompt, max_tokens=100, temperature=0, n=1):
 
+        generation = self.generate_texts(prompt, max_tokens=max_tokens, temperature=temperature, n=1)
+        generation = generation[0]
+
+        return generation
+
+    def generate_texts(self, prompt, max_tokens=100, temperature=0, n=1):
+
         data = {
             "model": self.generator.model_name,
             "prompt": prompt,
             "max_tokens": max_tokens,
             "temperature": temperature,
             "n":n,
-            "stop":self.prompting["user_start"],
+            "stop":self.generator.prompting["<user_start>"],
         }
         
         response = self.generator.query(data, timeout=30)

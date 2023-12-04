@@ -78,7 +78,7 @@ communication_style = [
     "Cultural Language Barriers"
 ]
 
-def get_random_story_seeds(number_of_seeded_words=1):
+def get_random_seeds(number_of_seeded_words=1):
     mood_ = random.sample(moods, number_of_seeded_words)
     setting_ = random.sample(setting, number_of_seeded_words)
     protagonist_ = random.sample(protagonist, number_of_seeded_words)

@@ -9,11 +9,11 @@ Here are the outputs of the models:
 [
     {
         "model": 1,
-        "answer": \"""answer_1\"""
+        "answer": \"""<response1>\"""
     },
     {
         "model": 2,
-        "answer": \"""answer_2\"""
+        "answer": \"""<response2>\"""
     }
 ]
 

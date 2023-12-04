@@ -3,7 +3,7 @@ from validator.categories.templates.template_category import TemplateCategory
 from validator.categories.templates.synergy_category.random_seed import get_random_seeds
 
 class SynergyCategory(TemplateCategory):
-    def __init__(self, validator_model, uids_info, validator_session):
+    def __init__(self, validator_model, uids_info, validator_session=None):
         super().__init__(validator_model, uids_info, validator_session)
 
         self.prompt_generation_prompts = []

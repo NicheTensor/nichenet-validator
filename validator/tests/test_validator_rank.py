@@ -1,22 +1,18 @@
-from validator.categories.general_chat.general_chat_config import GeneralChatConfig
-from validator.categories.storytelling.storytelling_config import StoryTellingConfig
+from validator.categories.categories.general_chat.general_chat_config import GeneralChatConfig
+from validator.categories.categories.storytelling.storytelling_config import StoryTellingConfig
+
 from validator.validator_model.validator_model import ValidatorModel
+from validator.validator_model.generator_model import URLModel
+
 from validator.utils.uids_info import AllUidsInfo
+
 import random
 
 
 
-prompting = {
-    "prefix":"A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions.",
-    "assistant_start":'\nASSISTANT:',
-    "assistant_end":'</s>',
 
-    "user_start":'\nUSER: ',
-    "user_end":'',
-    }
-
-
-validator_model = ValidatorModel(url="http://209.20.158.61:8000/v1/completions",model_name="WizardLM/WizardLM-13B-V1.2", prompting=prompting)
+generator = URLModel(url="http://209.20.158.61:8000/v1/completions", model_name="WizardLM/WizardLM-13B-V1.2")
+validator_model = ValidatorModel(generator=generator)
 
 uids_info = AllUidsInfo(5)
 
@@ -255,6 +251,6 @@ category = categories_config[selected_category]
 validator_response = validator_model.quick_generate(testing_prompt)
 random.shuffle(filtered_responses)
 scores = category.score_responses( testing_prompt, filtered_responses, validator_response)
-
+print("Validator response:", validator_response)
 for i in range(len(scores)):
     print(scores[i], filtered_responses[i])

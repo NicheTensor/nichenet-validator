@@ -18,7 +18,7 @@ class VicheModelConfig(FixedModelsTemplateCategory):
 
         model_name = "WizardLM/WizardLM-13B-V1.2"
 
-        category_name="viche_model"
+        category_name="wizard_model"
 
         super().__init__(validator_model, uids_info, validator_session, confirmation_url, category_name=category_name, model_name = model_name, prompting=prompting)
 

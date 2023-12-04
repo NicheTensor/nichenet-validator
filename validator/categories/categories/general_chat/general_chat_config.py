@@ -3,7 +3,7 @@ from validator.categories.categories.general_chat.general_chat_prompts import vs
 from validator.categories.categories.general_chat.random_seed import get_random_seeds
 
 class GeneralChatConfig(SynergyCategory):
-    def __init__(self, validator_model, uids_info, validator_session):
+    def __init__(self, validator_model, uids_info, validator_session=None):
         super().__init__(validator_model, uids_info, validator_session)
         
         self.prompt_generation_prompts = prompt_generation_prompts

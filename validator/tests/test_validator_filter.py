@@ -1,10 +1,14 @@
-from validator.categories.general_chat.general_chat_config import GeneralChatConfig
-from validator.categories.storytelling.storytelling_config import StoryTellingConfig
 from validator.validator_model.validator_model import ValidatorModel
 from validator.utils.uids_info import AllUidsInfo
+from validator.validator_model.generator_model import URLModel
 import random
+from validator.categories.categories.general_chat.general_chat_config import GeneralChatConfig
+from validator.categories.categories.storytelling.storytelling_config import StoryTellingConfig
 
-validator_model = ValidatorModel(url="http://209.20.158.61:8000/v1/completions",model_name="WizardLM/WizardLM-13B-V1.2")
+
+generator = URLModel(url="http://209.20.158.61:8000/v1/completions", model_name="WizardLM/WizardLM-13B-V1.2")
+validator_model = ValidatorModel(generator=generator)
+
 
 uids_info = AllUidsInfo(5)
 
@@ -235,7 +239,7 @@ selected_category = 'general_chat'
 category = categories_config[selected_category]
 
 random_select_idx = random.randint(0, len(category_qa[selected_category])-1)
-# random_select_idx = 3
+random_select_idx = 0
 testing_prompt = category_qa[selected_category][random_select_idx]['question']
 responses = category_qa[selected_category][random_select_idx]['answers']
 
