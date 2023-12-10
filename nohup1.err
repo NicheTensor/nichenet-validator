@@ -1,0 +1,608 @@
+2023-12-09 18:04:08: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:08: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:08: │                                                                              │
+2023-12-09 18:04:08: │     5 import traceback                                                       │
+2023-12-09 18:04:08: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:08: │     7                                                                        │
+2023-12-09 18:04:08: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:08: │     9                                                                        │
+2023-12-09 18:04:08: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:08: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:08: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:08: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:12: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:12: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:12: │                                                                              │
+2023-12-09 18:04:12: │     5 import traceback                                                       │
+2023-12-09 18:04:12: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:12: │     7                                                                        │
+2023-12-09 18:04:12: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:12: │     9                                                                        │
+2023-12-09 18:04:12: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:12: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:12: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:12: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:16: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:16: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:16: │                                                                              │
+2023-12-09 18:04:16: │     5 import traceback                                                       │
+2023-12-09 18:04:16: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:16: │     7                                                                        │
+2023-12-09 18:04:16: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:16: │     9                                                                        │
+2023-12-09 18:04:16: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:16: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:16: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:16: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:20: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:20: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:20: │                                                                              │
+2023-12-09 18:04:20: │     5 import traceback                                                       │
+2023-12-09 18:04:20: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:20: │     7                                                                        │
+2023-12-09 18:04:20: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:20: │     9                                                                        │
+2023-12-09 18:04:20: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:20: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:20: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:20: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:24: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:24: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:24: │                                                                              │
+2023-12-09 18:04:24: │     5 import traceback                                                       │
+2023-12-09 18:04:24: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:24: │     7                                                                        │
+2023-12-09 18:04:24: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:24: │     9                                                                        │
+2023-12-09 18:04:24: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:24: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:24: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:24: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:28: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:28: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:28: │                                                                              │
+2023-12-09 18:04:28: │     5 import traceback                                                       │
+2023-12-09 18:04:28: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:28: │     7                                                                        │
+2023-12-09 18:04:28: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:28: │     9                                                                        │
+2023-12-09 18:04:28: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:28: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:28: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:28: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:32: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:32: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:32: │                                                                              │
+2023-12-09 18:04:32: │     5 import traceback                                                       │
+2023-12-09 18:04:32: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:32: │     7                                                                        │
+2023-12-09 18:04:32: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:32: │     9                                                                        │
+2023-12-09 18:04:32: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:32: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:32: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:32: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:36: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:36: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:36: │                                                                              │
+2023-12-09 18:04:36: │     5 import traceback                                                       │
+2023-12-09 18:04:36: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:36: │     7                                                                        │
+2023-12-09 18:04:36: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:36: │     9                                                                        │
+2023-12-09 18:04:36: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:36: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:36: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:36: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:39: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:39: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:39: │                                                                              │
+2023-12-09 18:04:39: │     5 import traceback                                                       │
+2023-12-09 18:04:39: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:39: │     7                                                                        │
+2023-12-09 18:04:39: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:39: │     9                                                                        │
+2023-12-09 18:04:39: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:39: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:39: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:39: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:43: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:43: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:43: │                                                                              │
+2023-12-09 18:04:43: │     5 import traceback                                                       │
+2023-12-09 18:04:43: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:43: │     7                                                                        │
+2023-12-09 18:04:43: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:43: │     9                                                                        │
+2023-12-09 18:04:43: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:43: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:43: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:43: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:50: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:50: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:50: │                                                                              │
+2023-12-09 18:04:50: │     5 import traceback                                                       │
+2023-12-09 18:04:50: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:50: │     7                                                                        │
+2023-12-09 18:04:50: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:50: │     9                                                                        │
+2023-12-09 18:04:50: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:50: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:50: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:50: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:04:54: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:04:54: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:04:54: │                                                                              │
+2023-12-09 18:04:54: │     5 import traceback                                                       │
+2023-12-09 18:04:54: │     6 import bittensor as bt                                                 │
+2023-12-09 18:04:54: │     7                                                                        │
+2023-12-09 18:04:54: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:04:54: │     9                                                                        │
+2023-12-09 18:04:54: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:04:54: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:04:54: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:04:54: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:00: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:00: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:00: │                                                                              │
+2023-12-09 18:05:00: │     5 import traceback                                                       │
+2023-12-09 18:05:00: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:00: │     7                                                                        │
+2023-12-09 18:05:00: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:00: │     9                                                                        │
+2023-12-09 18:05:00: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:00: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:00: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:00: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:03: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:03: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:03: │                                                                              │
+2023-12-09 18:05:03: │     5 import traceback                                                       │
+2023-12-09 18:05:03: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:03: │     7                                                                        │
+2023-12-09 18:05:03: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:03: │     9                                                                        │
+2023-12-09 18:05:03: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:03: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:03: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:03: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:07: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:07: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:07: │                                                                              │
+2023-12-09 18:05:07: │     5 import traceback                                                       │
+2023-12-09 18:05:07: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:07: │     7                                                                        │
+2023-12-09 18:05:07: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:07: │     9                                                                        │
+2023-12-09 18:05:07: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:07: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:07: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:07: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:11: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:11: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:11: │                                                                              │
+2023-12-09 18:05:11: │     5 import traceback                                                       │
+2023-12-09 18:05:11: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:11: │     7                                                                        │
+2023-12-09 18:05:11: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:11: │     9                                                                        │
+2023-12-09 18:05:11: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:11: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:11: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:11: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:14: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:14: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:14: │                                                                              │
+2023-12-09 18:05:14: │     5 import traceback                                                       │
+2023-12-09 18:05:14: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:14: │     7                                                                        │
+2023-12-09 18:05:14: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:14: │     9                                                                        │
+2023-12-09 18:05:14: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:14: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:14: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:14: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:18: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:18: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:18: │                                                                              │
+2023-12-09 18:05:18: │     5 import traceback                                                       │
+2023-12-09 18:05:18: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:18: │     7                                                                        │
+2023-12-09 18:05:18: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:18: │     9                                                                        │
+2023-12-09 18:05:18: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:18: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:18: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:18: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:22: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:22: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:22: │                                                                              │
+2023-12-09 18:05:22: │     5 import traceback                                                       │
+2023-12-09 18:05:22: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:22: │     7                                                                        │
+2023-12-09 18:05:22: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:22: │     9                                                                        │
+2023-12-09 18:05:22: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:22: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:22: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:22: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:26: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:26: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:26: │                                                                              │
+2023-12-09 18:05:26: │     5 import traceback                                                       │
+2023-12-09 18:05:26: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:26: │     7                                                                        │
+2023-12-09 18:05:26: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:26: │     9                                                                        │
+2023-12-09 18:05:26: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:26: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:26: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:26: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:31: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:31: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:31: │                                                                              │
+2023-12-09 18:05:31: │     5 import traceback                                                       │
+2023-12-09 18:05:31: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:31: │     7                                                                        │
+2023-12-09 18:05:31: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:31: │     9                                                                        │
+2023-12-09 18:05:31: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:31: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:31: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:31: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:37: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:37: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:37: │                                                                              │
+2023-12-09 18:05:37: │     5 import traceback                                                       │
+2023-12-09 18:05:37: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:37: │     7                                                                        │
+2023-12-09 18:05:37: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:37: │     9                                                                        │
+2023-12-09 18:05:37: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:37: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:37: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:37: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:40: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:40: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:40: │                                                                              │
+2023-12-09 18:05:40: │     5 import traceback                                                       │
+2023-12-09 18:05:40: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:40: │     7                                                                        │
+2023-12-09 18:05:40: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:40: │     9                                                                        │
+2023-12-09 18:05:40: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:40: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:40: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:40: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:44: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:44: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:44: │                                                                              │
+2023-12-09 18:05:44: │     5 import traceback                                                       │
+2023-12-09 18:05:44: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:44: │     7                                                                        │
+2023-12-09 18:05:44: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:44: │     9                                                                        │
+2023-12-09 18:05:44: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:44: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:44: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:44: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:48: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:48: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:48: │                                                                              │
+2023-12-09 18:05:48: │     5 import traceback                                                       │
+2023-12-09 18:05:48: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:48: │     7                                                                        │
+2023-12-09 18:05:48: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:48: │     9                                                                        │
+2023-12-09 18:05:48: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:48: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:48: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:48: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:51: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:51: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:51: │                                                                              │
+2023-12-09 18:05:51: │     5 import traceback                                                       │
+2023-12-09 18:05:51: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:51: │     7                                                                        │
+2023-12-09 18:05:51: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:51: │     9                                                                        │
+2023-12-09 18:05:51: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:51: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:51: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:51: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:55: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:55: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:55: │                                                                              │
+2023-12-09 18:05:55: │     5 import traceback                                                       │
+2023-12-09 18:05:55: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:55: │     7                                                                        │
+2023-12-09 18:05:55: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:55: │     9                                                                        │
+2023-12-09 18:05:55: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:55: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:55: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:55: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:05:59: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:05:59: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:05:59: │                                                                              │
+2023-12-09 18:05:59: │     5 import traceback                                                       │
+2023-12-09 18:05:59: │     6 import bittensor as bt                                                 │
+2023-12-09 18:05:59: │     7                                                                        │
+2023-12-09 18:05:59: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:05:59: │     9                                                                        │
+2023-12-09 18:05:59: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:05:59: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:05:59: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:05:59: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:03: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:03: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:03: │                                                                              │
+2023-12-09 18:06:03: │     5 import traceback                                                       │
+2023-12-09 18:06:03: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:03: │     7                                                                        │
+2023-12-09 18:06:03: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:03: │     9                                                                        │
+2023-12-09 18:06:03: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:03: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:03: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:03: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:07: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:07: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:07: │                                                                              │
+2023-12-09 18:06:07: │     5 import traceback                                                       │
+2023-12-09 18:06:07: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:07: │     7                                                                        │
+2023-12-09 18:06:07: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:07: │     9                                                                        │
+2023-12-09 18:06:07: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:07: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:07: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:07: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:12: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:12: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:12: │                                                                              │
+2023-12-09 18:06:12: │     5 import traceback                                                       │
+2023-12-09 18:06:12: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:12: │     7                                                                        │
+2023-12-09 18:06:12: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:12: │     9                                                                        │
+2023-12-09 18:06:12: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:12: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:12: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:12: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:16: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:16: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:16: │                                                                              │
+2023-12-09 18:06:16: │     5 import traceback                                                       │
+2023-12-09 18:06:16: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:16: │     7                                                                        │
+2023-12-09 18:06:16: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:16: │     9                                                                        │
+2023-12-09 18:06:16: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:16: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:16: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:16: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:20: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:20: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:20: │                                                                              │
+2023-12-09 18:06:20: │     5 import traceback                                                       │
+2023-12-09 18:06:20: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:20: │     7                                                                        │
+2023-12-09 18:06:20: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:20: │     9                                                                        │
+2023-12-09 18:06:20: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:20: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:20: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:20: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:23: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:23: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:23: │                                                                              │
+2023-12-09 18:06:23: │     5 import traceback                                                       │
+2023-12-09 18:06:23: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:23: │     7                                                                        │
+2023-12-09 18:06:23: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:23: │     9                                                                        │
+2023-12-09 18:06:23: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:23: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:23: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:23: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:28: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:28: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:28: │                                                                              │
+2023-12-09 18:06:28: │     5 import traceback                                                       │
+2023-12-09 18:06:28: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:28: │     7                                                                        │
+2023-12-09 18:06:28: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:28: │     9                                                                        │
+2023-12-09 18:06:28: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:28: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:28: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:28: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:31: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:31: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:31: │                                                                              │
+2023-12-09 18:06:31: │     5 import traceback                                                       │
+2023-12-09 18:06:31: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:31: │     7                                                                        │
+2023-12-09 18:06:31: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:31: │     9                                                                        │
+2023-12-09 18:06:31: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:31: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:31: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:31: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:35: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:35: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:35: │                                                                              │
+2023-12-09 18:06:35: │     5 import traceback                                                       │
+2023-12-09 18:06:35: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:35: │     7                                                                        │
+2023-12-09 18:06:35: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:35: │     9                                                                        │
+2023-12-09 18:06:35: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:35: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:35: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:35: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:39: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:39: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:39: │                                                                              │
+2023-12-09 18:06:39: │     5 import traceback                                                       │
+2023-12-09 18:06:39: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:39: │     7                                                                        │
+2023-12-09 18:06:39: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:39: │     9                                                                        │
+2023-12-09 18:06:39: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:39: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:39: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:39: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:42: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:42: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:42: │                                                                              │
+2023-12-09 18:06:42: │     5 import traceback                                                       │
+2023-12-09 18:06:42: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:42: │     7                                                                        │
+2023-12-09 18:06:42: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:42: │     9                                                                        │
+2023-12-09 18:06:42: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:42: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:42: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:42: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:46: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:46: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:46: │                                                                              │
+2023-12-09 18:06:46: │     5 import traceback                                                       │
+2023-12-09 18:06:46: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:46: │     7                                                                        │
+2023-12-09 18:06:46: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:46: │     9                                                                        │
+2023-12-09 18:06:46: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:46: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:46: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:46: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:50: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:50: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:50: │                                                                              │
+2023-12-09 18:06:50: │     5 import traceback                                                       │
+2023-12-09 18:06:50: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:50: │     7                                                                        │
+2023-12-09 18:06:50: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:50: │     9                                                                        │
+2023-12-09 18:06:50: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:50: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:50: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:50: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:54: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:54: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:54: │                                                                              │
+2023-12-09 18:06:54: │     5 import traceback                                                       │
+2023-12-09 18:06:54: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:54: │     7                                                                        │
+2023-12-09 18:06:54: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:54: │     9                                                                        │
+2023-12-09 18:06:54: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:54: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:54: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:54: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:06:57: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:06:57: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:06:57: │                                                                              │
+2023-12-09 18:06:57: │     5 import traceback                                                       │
+2023-12-09 18:06:57: │     6 import bittensor as bt                                                 │
+2023-12-09 18:06:57: │     7                                                                        │
+2023-12-09 18:06:57: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:06:57: │     9                                                                        │
+2023-12-09 18:06:57: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:06:57: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:06:57: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:06:57: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:07:02: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:07:02: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:07:02: │                                                                              │
+2023-12-09 18:07:02: │     5 import traceback                                                       │
+2023-12-09 18:07:02: │     6 import bittensor as bt                                                 │
+2023-12-09 18:07:02: │     7                                                                        │
+2023-12-09 18:07:02: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:07:02: │     9                                                                        │
+2023-12-09 18:07:02: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:07:02: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:07:02: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:07:02: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:07:06: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:07:06: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:07:06: │                                                                              │
+2023-12-09 18:07:06: │     5 import traceback                                                       │
+2023-12-09 18:07:06: │     6 import bittensor as bt                                                 │
+2023-12-09 18:07:06: │     7                                                                        │
+2023-12-09 18:07:06: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:07:06: │     9                                                                        │
+2023-12-09 18:07:06: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:07:06: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:07:06: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:07:06: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:07:09: Traceback (most recent call last):
+2023-12-09 18:07:09:   File "/home/ubuntu/nichenet-validator/validator/run_validator.py", line 3, in <module>
+2023-12-09 18:07:09:     import torch
+2023-12-09 18:07:09:   File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/__init__.py", line 1465, in <module>
+2023-12-09 18:07:09:     from . import _meta_registrations
+2023-12-09 18:07:09:   File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/_meta_registrations.py", line 7, in <module>
+2023-12-09 18:07:09:     from torch._decomp import _add_op_to_registry, global_decomposition_table, meta_table
+2023-12-09 18:07:09:   File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/_decomp/__init__.py", line 169, in <module>
+2023-12-09 18:07:09:     import torch._decomp.decompositions
+2023-12-09 18:07:09:   File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/_decomp/decompositions.py", line 10, in <module>
+2023-12-09 18:07:09:     import torch._prims as prims
+2023-12-09 18:07:09:   File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/_prims/__init__.py", line 975, in <module>
+2023-12-09 18:07:09:     fmin = _make_elementwise_binary_prim(
+2023-12-09 18:07:09:   File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/_prims/__init__.py", line 446, in _make_elementwise_binary_prim
+2023-12-09 18:07:09:     return _make_prim(
+2023-12-09 18:07:09:   File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/_prims/__init__.py", line 299, in _make_prim
+2023-12-09 18:07:09:     _prim_packet = getattr(torch._ops.ops.prims, name)
+2023-12-09 18:07:09:   File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/_ops.py", line 565, in __getattr__
+2023-12-09 18:07:09:     op, overload_names = torch._C._jit_get_operation(qualified_op_name)
+2023-12-09 18:07:09: KeyboardInterrupt
+2023-12-09 18:07:12: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:07:12: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:07:12: │                                                                              │
+2023-12-09 18:07:12: │     5 import traceback                                                       │
+2023-12-09 18:07:12: │     6 import bittensor as bt                                                 │
+2023-12-09 18:07:12: │     7                                                                        │
+2023-12-09 18:07:12: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:07:12: │     9                                                                        │
+2023-12-09 18:07:12: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:07:12: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:07:12: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:07:12: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:07:16: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:07:16: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:07:16: │                                                                              │
+2023-12-09 18:07:16: │     5 import traceback                                                       │
+2023-12-09 18:07:16: │     6 import bittensor as bt                                                 │
+2023-12-09 18:07:16: │     7                                                                        │
+2023-12-09 18:07:16: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:07:16: │     9                                                                        │
+2023-12-09 18:07:16: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:07:16: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:07:16: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:07:16: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:07:20: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:07:20: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:07:20: │                                                                              │
+2023-12-09 18:07:20: │     5 import traceback                                                       │
+2023-12-09 18:07:20: │     6 import bittensor as bt                                                 │
+2023-12-09 18:07:20: │     7                                                                        │
+2023-12-09 18:07:20: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:07:20: │     9                                                                        │
+2023-12-09 18:07:20: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:07:20: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:07:20: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:07:20: ModuleNotFoundError: No module named 'validator'
+2023-12-09 18:07:24: ╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+2023-12-09 18:07:24: │ /home/ubuntu/nichenet-validator/validator/run_validator.py:8 in <module>     │
+2023-12-09 18:07:24: │                                                                              │
+2023-12-09 18:07:24: │     5 import traceback                                                       │
+2023-12-09 18:07:24: │     6 import bittensor as bt                                                 │
+2023-12-09 18:07:24: │     7                                                                        │
+2023-12-09 18:07:24: │ ❱   8 from validator.prompting_protocol import PromptingProtocol             │
+2023-12-09 18:07:24: │     9                                                                        │
+2023-12-09 18:07:24: │    10 from categories.categories.general_chat.general_chat_config import Gen │
+2023-12-09 18:07:24: │    11 from categories.categories.storytelling.storytelling_config import Sto │
+2023-12-09 18:07:24: ╰──────────────────────────────────────────────────────────────────────────────╯
+2023-12-09 18:07:24: ModuleNotFoundError: No module named 'validator'

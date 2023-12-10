@@ -5,20 +5,19 @@ import argparse
 import traceback
 import bittensor as bt
 
-import template
+from validator.prompting_protocol import PromptingProtocol
 
-from validator.categories.general_chat.general_chat_config import GeneralChatConfig
-from validator.categories.storytelling.storytelling_config import StoryTellingConfig
+from categories.categories.general_chat.general_chat_config import GeneralChatConfig
+from categories.categories.storytelling.storytelling_config import StoryTellingConfig
 
-from validator.validator_model.validator_model import ValidatorModel
-from validator.validator_model.generator_model import URLModel
-from validator.validator_model.network_model import NetworkModel
+from validator_model.validator_model import ValidatorModel
+from validator_model.generator_model import URLModel
 
-from validator.categories.viche_model.network_generator import NetworkGenerator
+from categories.categories.viche_model.network_generator import NetworkGenerator
 
 
-from validator.utils.uids_info import AllUidsInfo
-from validator.utils.weights import process_weights
+from utils.uids_info import AllUidsInfo
+from utils.weights import process_weights
 
 def get_config():
 
@@ -27,7 +26,7 @@ def get_config():
     parser.add_argument( '--netuid', type = int, default = 1, help = "The chain subnet uid." )
     parser.add_argument( '--model.url', type = str, default = None, help = "The url of the model endpoint." )
     parser.add_argument( '--model.name', type = str, default = None, help = "The name of model" )
-    parser.add_argument( '--confirmation_url', type = str, default = "http://fixed_model.nichetensor.com:8008", help = "URL to test fixed model" )
+    parser.add_argument( '--wizard_url', type = str, default = "http://WizardLM_13B_V1_2.nichetensor.com:8008", help = "URL to test WizardLM fixed model" )
 
     # Adds subtensor specific arguments i.e. --subtensor.chain_endpoint ... --subtensor.network ...
     bt.subtensor.add_args(parser)
@@ -37,6 +36,8 @@ def get_config():
 
     # Adds wallet specific arguments i.e. --wallet.name ..., --wallet.hotkey ./. or --wallet.path ...
     bt.wallet.add_args(parser)
+
+    bt.axon.add_args(parser)
 
     # To print help message, run python3 template/miner.py --help
     config =  bt.config(parser)
@@ -60,7 +61,12 @@ def get_config():
 class ValidatorSession:
     def __init__(self, config):
         self.config = config
-        self.wallet, self.subtensor, self.dendrite, self.metagraph = self.setup()
+        self.wallet, self.subtensor, self.dendrite, self.metagraph, self.axon = self.setup()
+
+        self.subtensor.serve_axon(
+                    netuid=self.config.netuid,
+                    axon=self.axon,
+                )
 
         if config.model.url is None:
             bt.logging("Defaulting to use network for validation since --model.url or --model.name was not specified")
@@ -84,7 +90,7 @@ class ValidatorSession:
     
         bt.logging.info(self.config)
 
-        # The wallet holds the cryptographic key pairs for the validator.
+        # The wallet holds the cryptographic key pairs for the 
         wallet = bt.wallet( config = self.config )
         bt.logging.info(f"Wallet: {wallet}")
 
@@ -113,7 +119,10 @@ class ValidatorSession:
         # bt.logging.info("Building validation weights.")
         # scores = torch.ones_like(metagraph.S, dtype=torch.float32)
         # bt.logging.info(f"Weights: {scores}")
-        return wallet, subtensor, dendrite, metagraph
+        axon = bt.axon(wallet=wallet, config=self.config)
+
+
+        return wallet, subtensor, dendrite, metagraph, axon
     
     def setup_categories_config(self):
         self.categories_config = {
@@ -128,7 +137,7 @@ class ValidatorSession:
         uid_to_axon = dict(zip(self.all_uids, self.metagraph.axons))
         query_axons = [uid_to_axon[int(uid)] for uid in query_uids]
 
-        protocol_payload = template.protocol.PromptingTemplate(prompt_input = payload)
+        protocol_payload = PromptingProtocol(prompt_input = payload)
 
         response = self.dendrite.query(
             query_axons,
@@ -226,7 +235,7 @@ class ValidatorSession:
                 # Resync our local state with the latest state from the blockchain.
                 self.metagraph = self.subtensor.metagraph(self.config.netuid)
                 # Sleep for a duration equivalent to the block time (i.e., time between successive blocks).
-                sleep_blocks = 100
+                sleep_blocks = 10
                 bt.logging.info(f"Sleeping for {sleep_blocks * bt.__blocktime__} seconds.")
                 time.sleep(bt.__blocktime__*sleep_blocks)
 
@@ -237,17 +246,17 @@ class ValidatorSession:
 
             # If the user interrupts the program, gracefully exit.
             except KeyboardInterrupt:
-                bt.logging.success("Keyboard interrupt detected. Exiting validator.")
+                bt.logging.success("Keyboard interrupt detected. Exiting ")
                 exit()
 
 
 
-# The main function parses the configuration and runs the validator.
+# The main function parses the configuration and runs the 
 if __name__ == "__main__":
 
     # Parse the configuration.
     config = get_config()
 
-    # Run the validator.
+    # Run the 
     session = ValidatorSession(config)
     session.run_validation()

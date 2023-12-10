@@ -88,7 +88,7 @@ Run the following command to mint yourself tokens on your chain.
 # Mint tokens for the owner
 btcli wallet faucet --wallet.name owner --subtensor.chain_endpoint ws://127.0.0.1:9946 
 >> Balance: τ0.000000000 ➡ τ100.000000000
-# Mint tokens to your validator.
+# Mint tokens to your 
 btcli wallet faucet --wallet.name validator --subtensor.chain_endpoint ws://127.0.0.1:9946 
 >> Balance: τ0.000000000 ➡ τ100.000000000
 ```
@@ -162,7 +162,7 @@ Make sure to specify your subnetwork parameters.
 ```bash
 python neurons/miner.py --netuid 1 --subtensor.chain_endpoint ws://127.0.0.1:9946 --wallet.name miner --wallet.hotkey default --logging.debug
 >> ... # Run logs.
-python neurons/validator.py --netuid 1 --subtensor.chain_endpoint ws://127.0.0.1:9946 --wallet.name validator --wallet.hotkey default --logging.debug
+python neurons/py --netuid 1 --subtensor.chain_endpoint ws://127.0.0.1:9946 --wallet.name validator --wallet.hotkey default --logging.debug
 >> ... # Run logs.
 ```
 
