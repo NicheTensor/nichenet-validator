@@ -1,6 +1,8 @@
 import random
 from categories.templates.template_category import TemplateCategory
 from categories.templates.synergy_category.random_seed import get_random_seeds
+import bittensor as bt
+
 
 class SynergyCategory(TemplateCategory):
     def __init__(self, validator_model, uids_info, validator_session=None):
@@ -21,7 +23,7 @@ class SynergyCategory(TemplateCategory):
         self.max_incentivized_miners = 100
 
         self.questions_token_limit = 300
-        self.answer_token_limit = 1000 # max response tokens to generate by miner/validator
+        self.answer_token_limit = 500 # max response tokens to generate by miner/validator
         
         self.response_character_limit = 2000 # first 2000 characters of response
         self.max_response_time = 12
@@ -59,6 +61,10 @@ class SynergyCategory(TemplateCategory):
         all_prompts = []
         for i in range(len(self.prompt_generation_prompts)):
             testing_prompts = self.generate_testing_prompt(prompt_index=i)
+
+            if len(self.prompt_generation_prompts_suffixes) >= i:
+                testing_prompts = testing_prompts + self.prompt_generation_prompts_suffixes[i]
+
             all_prompts.append(testing_prompts)
 
         return all_prompts
@@ -67,9 +73,12 @@ class SynergyCategory(TemplateCategory):
         if not prompt_index:
             prompt_index = self.prompt_index
             self.prompt_index = self.prompt_index % len(self.prompt_generation_prompts)
+            self.prompt_index + 1
+            
         prompt = self.prompt_generation_prompts[prompt_index]
         prompt = self.replace_keywords(prompt)
         testing_prompt = self.validator_model.generate_text(prompt, self.questions_token_limit, temperature=0.7)
+
         return testing_prompt
     
 
@@ -134,6 +143,7 @@ class SynergyCategory(TemplateCategory):
         
         uids_to_query = self.uids_info.get_uids_for_category(self.category_name)
         testing_prompt = self.generate_testing_prompt()
+        print("Testing prompt", testing_prompt)
 
         payload = {
             'prompt': testing_prompt,
@@ -143,7 +153,7 @@ class SynergyCategory(TemplateCategory):
         }
 
         miners_responses = call_uids(uids_to_query, payload)
-
+        print("miners_responses", miners_responses)
         responses = []
         for idx, miner_response in enumerate(miners_responses):
             try:
@@ -156,11 +166,14 @@ class SynergyCategory(TemplateCategory):
                 continue
 
         if not responses:
-            # bt.logging.warning(f"No proper response recieved from any miner with category {self.category_name} for the input prompt. Skipping setting weights for {self.category_name}")
+            bt.logging.warning(f"No proper response recieved from any miner with category {self.category_name} for the input prompt. Skipping setting weights for {self.category_name}")
             return False
 
         valid_responses, valid_responses_uids = self.get_valid_responses(responses, uids_to_query)
+        print("valid_responses", valid_responses)
         filtered_responses, filtered_responses_uids = self.filter_responses(testing_prompt, valid_responses, valid_responses_uids)
+        print("filtered_responses", filtered_responses)
+        print("filtered_responses_uids", filtered_responses_uids)
 
         validator_response = self.validator_model.quick_generate(testing_prompt, max_tokens=self.answer_token_limit)
         scores = self.score_responses( testing_prompt, filtered_responses, validator_response)

@@ -1,5 +1,5 @@
 
-from categories.categories.storytelling.storytelling_config import StoryTellingConfig
+from categories.categories.storytelling.storytelling_config import StorytellingConfig
 from validator_model.validator_model import ValidatorModel
 from utils.uids_info import AllUidsInfo
 from validator_model.generator_model import URLModel
@@ -20,7 +20,7 @@ validator_model = ValidatorModel(generator=generator)
 
 uids_info = AllUidsInfo(3)
 
-category = StoryTellingConfig(validator_model, uids_info, validator_session=None)
+category = StorytellingConfig(validator_model, uids_info, validator_session=None)
 
 
 testing_promompts = category.generate_testing_prompts()

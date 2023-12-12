@@ -1,6 +1,6 @@
 
 from categories.categories.general_chat.general_chat_config import GeneralChatConfig
-from categories.categories.storytelling.storytelling_config import StoryTellingConfig
+from categories.categories.storytelling.storytelling_config import StorytellingConfig
 
 from validator_model.validator_model import ValidatorModel
 from validator_model.generator_model import URLModel
@@ -16,7 +16,7 @@ uids_info = AllUidsInfo(3)
 
 categories_config = {
     "general_chat_config":GeneralChatConfig(validator_model, uids_info),
-    "storytelling_config":StoryTellingConfig(validator_model, uids_info)
+    "storytelling_config":StorytellingConfig(validator_model, uids_info)
 }
 
 category = categories_config["storytelling_config"]

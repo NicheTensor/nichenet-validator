@@ -79,7 +79,7 @@ class UidInfo:
         return f"<MinerInfo({to_return})>"
 
 class AllUidsInfo:
-    def __init__(self, num_uids = 2048, max_iterations_to_store = 256):
+    def __init__(self, num_uids = 256, max_iterations_to_store = 256):
         self.uids = [UidInfo(uid=i) for i in range(num_uids)]
         self.max_iterations_to_store = max_iterations_to_store
 
@@ -88,7 +88,7 @@ class AllUidsInfo:
     
     def __repr__(self):
 
-        to_return = "\n" + "\n".join([str(uid) for uid in self.uids][:5])
+        to_return = "\n" + "\n".join([str(uid) for uid in self.uids][:7])
         return f"<AllUidsInfo(uids={to_return})>"
     
 

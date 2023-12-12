@@ -3,7 +3,7 @@ from utils.uids_info import AllUidsInfo
 from validator_model.generator_model import URLModel
 import random
 from categories.categories.general_chat.general_chat_config import GeneralChatConfig
-from categories.categories.storytelling.storytelling_config import StoryTellingConfig
+from categories.categories.storytelling.storytelling_config import StorytellingConfig
 
 
 generator = URLModel(url="http://209.20.158.61:8000/v1/completions", model_name="WizardLM/WizardLM-13B-V1.2")
@@ -230,7 +230,7 @@ category_qa = {
 
 categories_config = {
     "general_chat":GeneralChatConfig(validator_model, uids_info),
-    "story_telling": StoryTellingConfig(validator_model, uids_info)
+    "story_telling": StorytellingConfig(validator_model, uids_info)
 }
 
 selected_category = 'general_chat'

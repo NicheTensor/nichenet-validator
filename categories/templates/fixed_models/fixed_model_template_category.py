@@ -1,5 +1,3 @@
-import bittensor as bt
-from categories.templates.fixed_models.network_generator import NetworkGenerator
 from categories.templates.template_category import TemplateCategory
 
 import random
@@ -9,18 +7,20 @@ import threading
 import json
 
 class FixedModelsTemplateCategory(TemplateCategory):
-    def __init__(self, validator_model, uids_info, validator_session, confirmation_url):
+    def __init__(self, validator_model, uids_info, validator_session, confirmation_url, category_name="fixed_model", time_per_cycle=60*10, generator=None, answer_token_limit=500, max_response_time=12):
         super().__init__(validator_model, uids_info, validator_session)
 
-        self.category_name="fixed_models"
-
-        self.fixed_models = [""]
-
-        self.time_per_cycle = 10*60
-
         self.confirmation_url = confirmation_url
+        self.category_name=category_name
+        self.time_per_cycle = time_per_cycle
+        self.generator = generator
+        self.answer_token_limit = answer_token_limit
+        self.max_response_time = max_response_time
 
-        self.generator = NetworkGenerator()
+        # self.fixed_models = [""]
+
+        self.time_per_cycle = time_per_cycle
+        self.generator = generator
 
     def get_data(self):
         return False
@@ -42,7 +42,7 @@ class FixedModelsTemplateCategory(TemplateCategory):
         uids_to_query = self.uids_info.get_uids_for_category(self.category_name)
         random.shuffle(uids_to_query)
 
-        time_per_uid = self.time_per_cycle * 0.9 / uids_to_query
+        time_per_uid = self.time_per_cycle * 0.9 / len(uids_to_query)
 
         for uid in uids_to_query:
             start_time_uid = time.time()
@@ -56,8 +56,11 @@ class FixedModelsTemplateCategory(TemplateCategory):
                 'get_miner_info': False,
             }
             miner_response = call_uids([uid], payload)
+            print("payload",payload,flush=True)
+            print("uid",uid,flush=True)
+            print("miner_response",miner_response,flush=True)
             response = miner_response.get("response", None)
-
+            
             responded = bool(response)
             if responded:
                 score = self.score_response(testing_prompt, response)

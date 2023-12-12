@@ -1,12 +1,11 @@
 from validator_model.generator_model import GeneratorModel
-from categories.viche_model.fixed_model_config import prompting, model_name
 
 class NetworkGenerator(GeneratorModel):
-    def __init__(self, session):
+    def __init__(self, session, prompting, model_name):
         self.session = session
+        self.model_name = model_name
 
         super().__init__(prompting)  # Call the superclass's constructor
-        self.model_name = model_name
 
     def query(self, uid, data, timeout=30):
 

@@ -12,6 +12,8 @@ class GeneralChatConfig(SynergyCategory):
         self.evaluation_label_pass = "True"
         self.evaluation_label_fail = "False"
 
+        self.answer_token_limit = 200
+
         self.vs_prompt = {
             "prompt":vs_prompt,
             "label_first_winner":"1",

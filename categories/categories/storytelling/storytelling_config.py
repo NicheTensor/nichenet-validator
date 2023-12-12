@@ -5,7 +5,7 @@ from categories.categories.storytelling.random_seed import get_random_seeds
 
 
 
-class StoryTellingConfig(SynergyCategory):
+class StorytellingConfig(SynergyCategory):
     def __init__(self, validator_model, uids_info, validator_session=None):
         super().__init__(validator_model, uids_info, validator_session)
 
@@ -21,7 +21,7 @@ class StoryTellingConfig(SynergyCategory):
             "label_second_winner":"2",
         }
 
-        self.category_name="story_telling"
+        self.category_name="storytelling"
 
     def replace_keywords(self, text):
          text = text.replace("<seed>",get_random_seeds(1))
