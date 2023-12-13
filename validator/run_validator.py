@@ -84,8 +84,8 @@ class ValidatorSession:
 
         self.all_uids = [int(uid) for uid in self.metagraph.uids]
         self.uids_info = AllUidsInfo(self.max_uid)
-        print("self.metagraph.uids", self.metagraph.uids.data)
-        print("self.metagraph.uids", self.metagraph.uids)
+        #print("self.metagraph.uids", self.metagraph.uids.data)
+
         self.setup_categories_config()
         self.step = 0
 
@@ -178,8 +178,9 @@ class ValidatorSession:
                 self.uids_info.set_category_for_uids(category_uids, category_name)
                 miner_categories.append(category_name)
                 active_miner_categories.append(category_name)
-        print("self.all_uids", self.all_uids)
+        
         print("self.uids_info", self.uids_info)
+
         if not miner_categories:
             bt.logging.warning("No active miner available for specified validator categories. Skipping setting weights.")
             return
@@ -189,7 +190,11 @@ class ValidatorSession:
         for category_name in miner_categories:
             print("Running: ", category_name)
             category = self.categories_config[category_name]
-            category.forward(self.call_uids)
+            try:
+                category.forward(self.call_uids)
+            except Exception as e:
+                bt.logging.error("An error occured with a category: " + str(e))
+                traceback.print_exc()
 
         if active_miner_categories:
             self.set_weights(active_miner_categories)
@@ -220,10 +225,12 @@ class ValidatorSession:
 
         # normalizes scores before setting weights.
         weights = torch.nn.functional.normalize(scores, p=1.0, dim=0)
+        print()
         print("self.uids_info", self.uids_info)
         print("scores", scores)
         print("weights", weights)
         print("uids", uids)
+        print()
 
         # (processed_weight_uids,processed_weights,) = bt.utils.weight_utils.process_weights_for_netuid(
         ( processed_weight_uids, processed_weights, ) = process_weights(

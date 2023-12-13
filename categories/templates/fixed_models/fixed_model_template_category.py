@@ -7,7 +7,7 @@ import threading
 import json
 
 class FixedModelsTemplateCategory(TemplateCategory):
-    def __init__(self, validator_model, uids_info, validator_session, confirmation_url, category_name="fixed_model", time_per_cycle=60*10, generator=None, answer_token_limit=500, max_response_time=12):
+    def __init__(self, validator_model, uids_info, validator_session, confirmation_url, category_name="fixed_model", time_per_cycle=60*1, generator=None, answer_token_limit=500, max_response_time=12):
         super().__init__(validator_model, uids_info, validator_session)
 
         self.confirmation_url = confirmation_url
@@ -32,8 +32,10 @@ class FixedModelsTemplateCategory(TemplateCategory):
         return question
     
     def forward(self, call_uids):
-        t = threading.Thread(target=self.check_against_confirmation_url, args=(call_uids, ))
-        t.start()
+        #Threads doesnt work, since you apparently can not query using threads?
+        #t = threading.Thread(target=self.check_against_confirmation_url, args=(call_uids, ))
+        #t.start()
+        self.check_against_confirmation_url(call_uids)
 
         return True
     
@@ -55,21 +57,41 @@ class FixedModelsTemplateCategory(TemplateCategory):
                 'max_response_time': self.max_response_time,
                 'get_miner_info': False,
             }
-            miner_response = call_uids([uid], payload)
-            print("payload",payload,flush=True)
-            print("uid",uid,flush=True)
-            print("miner_response",miner_response,flush=True)
-            response = miner_response.get("response", None)
+            miner_responses = call_uids([uid], payload)
+            try:
+                response = miner_responses[0].get("response", None)
+            except:
+                print("Errenous response for fixed model:", str(miner_responses))
+                response=None
             
             responded = bool(response)
+            print("response",response)
             if responded:
                 score = self.score_response(testing_prompt, response)
                 self.update_uid_info(uid, responded, score)
+                print("score",score,flush=True)
             else:
                 self.update_uid_info(uid, responded, None)
-
+            
             if (time.time() - start_time_uid) < time_per_uid:
-                time.sleep(random.uniform(0, time_per_uid - (time.time() - start_time_uid)))
+                sleep_time = max(random.uniform(0, time_per_uid - (time.time() - start_time_uid)), 15)
+                print("Sleep time", sleep_time, flush=True)
+                time.sleep(sleep_time)
+
+    def update_uid_info(self, uid, responded, score):
+        
+        if responded:
+            valid_responses_uids=[uid]
+        else:
+            valid_responses_uids=[]
+        self.uids_info.update_response_rate([uid], valid_responses_uids)
+
+        if score:
+            filtered_responses_uids=[uid]
+        else:
+            filtered_responses_uids=[]
+
+        self.uids_info.update_good_response_rate([uid], filtered_responses_uids)
 
 
     # def check_against_top_trust(self, call_uids):
@@ -114,7 +136,7 @@ class FixedModelsTemplateCategory(TemplateCategory):
             "Content-Type": "application/json"
         }
 
-        response = requests.post(self.confirmation_url, data=json.dumps(data), headers=headers)
+        response = requests.post(self.confirmation_url, data=json.dumps(data), headers=headers, timeout=30)
 
         try:
             result =response.json()["result"]
