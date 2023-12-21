@@ -17,9 +17,10 @@ from validator_model.generator_model import URLModel
 
 from categories.categories.viche_model.network_generator import NetworkGenerator
 
-
 from utils.uids_info import AllUidsInfo
 from utils.weights import process_weights
+
+from validator.validator_proxy import ValidatorProxy
 
 def get_config():
 
@@ -29,6 +30,9 @@ def get_config():
     parser.add_argument( '--model.url', type = str, default = None, help = "The url of the model endpoint." )
     parser.add_argument( '--model.name', type = str, default = None, help = "The name of model" )
     parser.add_argument( '--confirmation_url_wizard', type = str, default = "http://WizardLM_13B_V1_2.nichetensor.com:8008", help = "URL to test WizardLM fixed model" )
+
+    parser.add_argument( '--proxy.port', type = int, default = None, help = "The chain subnet uid." )
+    parser.add_argument( '--proxy.auth_token', type = str, default = None, help = "An authentication token that can be used for quering the validator-proxy." )
     
 
     # Adds subtensor specific arguments i.e. --subtensor.chain_endpoint ... --subtensor.network ...
@@ -87,6 +91,8 @@ class ValidatorSession:
         #print("self.metagraph.uids", self.metagraph.uids.data)
 
         self.setup_categories_config()
+        self.start_validator_proxy()
+
         self.step = 0
 
     def setup(self):
@@ -138,6 +144,14 @@ class ValidatorSession:
         }
         self.unique_categories = set(self.categories_config.keys())
         self.incentive_distribution = {"general_chat": 0.6, "storytelling": 0.3, "wizard_model":0.1}
+
+
+    def start_validator_proxy(self):
+        if config.proxy.auth_token:
+            authentication_tokens = [config.proxy.auth_token]
+        else:
+            authentication_tokens = []
+        self.validator_proxy = ValidatorProxy(self.metagraph, self.dendrite, self.config.proxy.port, authentication_tokens = authentication_tokens, approved_urls = "")
 
     def call_uids(self, query_uids, payload):
 
