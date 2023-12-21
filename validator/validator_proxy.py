@@ -45,27 +45,24 @@ class ValidatorProxy():
 
             return token
         except Exception as e:
-            print("Exception occured", e)
+            print("Exception occured in authenticating token", e, flush=True)
             raise HTTPException(status_code=401, detail="Error getting authentication token")
         
 
     async def forward(self, data: dict={}):
 
-        print("IT is working here!", data, flush=True)
         self.authenticate_token(data["Authorization"])
 
         try:
             print("1",flush=True)
             payload = data.get("payload")
             uid = int(data.get("UID"))
-            print("2",flush=True)
             synapse = PromptingProtocol(prompt_input = payload)
 
             print('** IN:', uid)
 
             uid_to_axon = dict(zip([int(uid) for uid in self.metagraph.uids],  self.metagraph.axons))
             axon = uid_to_axon[int(uid)]
-            print("3",flush=True)
             task = asyncio.create_task(self.dendrite.forward([axon], synapse, deserialize=True))
             await asyncio.gather(task)
             
@@ -74,6 +71,7 @@ class ValidatorProxy():
             print('** OUT:', uid, result)
             return JSONResponse(content={"status": "success", "result":result[0]})
         except Exception as e:
+            print("Exception occured in proxy forward", e, flush=True)
             raise HTTPException(status_code=400, detail=str(e))
 
 
