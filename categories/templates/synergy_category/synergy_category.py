@@ -1,0 +1,405 @@
+import random
+from categories.templates.template_category import TemplateCategory
+# from categories.templates.synergy_category.random_seed import get_random_seeds
+import bittensor as bt
+from abc import ABC, abstractmethod
+
+class SynergyCategory(TemplateCategory):
+    def __init__(self, validator_model, uids_info, validator_session=None):
+        super().__init__(validator_model, uids_info, validator_session)
+
+        self.prompt_generation_prompts = []
+        self.evaluation_prompts = []
+        self.vs_prompt = {}
+        self.category_name="SynergyCategory"
+
+
+        self.synergy_based_on_rank, self.synergy_weights = self.create_synergy_based_on_rank()
+        self.validator_elo_score_weights = self.create_validator_elo_score_weights()
+
+        self.validator_elo_reward_weight = 0.2
+        self.synergy_reward_weight = 0.8
+
+        self.max_incentivized_miners = 100
+
+        self.questions_token_limit = 300
+        self.answer_token_limit = 500 # max response tokens to generate by miner/validator
+        
+        self.response_character_limit = 2000 # first 2000 characters of response
+        self.max_response_time = 180 # This is max response time for miner model GPUs
+
+        self.prompt_index = 0
+
+
+
+
+    def create_synergy_based_on_rank(self, num_rewarded = 32, exponent=2, memory_length = 256):
+        #Creates a list of how much synergy score each
+
+        synergy_based_on_rank = list(range(1, num_rewarded+1))
+        synergy_based_on_rank = [(item**exponent) for item in synergy_based_on_rank]
+        synergy_based_on_rank = [100*item/sum(synergy_based_on_rank) for item in synergy_based_on_rank]
+        synergy_based_on_rank.reverse()
+
+
+        # Generate weights such that the most recent victory has the highest weight
+        weights = [i for i in range(1, memory_length+1)]
+        # Normalize weights so they sum to 1
+        weights = [w/sum(weights) for w in weights]
+
+
+        return synergy_based_on_rank, weights
+    def create_validator_elo_score_weights(self, num_rewarded = 32, exponent=1.2):
+        validator_elo_score_weights = list(range(1, num_rewarded+1))
+        validator_elo_score_weights = [(item**exponent) for item in validator_elo_score_weights]
+        validator_elo_score_weights = [100*item/sum(validator_elo_score_weights) for item in validator_elo_score_weights]
+        validator_elo_score_weights.reverse()
+        return validator_elo_score_weights
+    
+    def generate_testing_prompts(self, payload):
+
+        all_prompts = []
+        for i in range(len(self.prompt_generation_prompts)):
+            testing_prompts = self.generate_testing_prompt( payload, prompt_index=i)
+
+            if len(self.prompt_generation_prompts_suffixes) >= i:
+                testing_prompts = testing_prompts + self.prompt_generation_prompts_suffixes[i]
+
+            all_prompts.append(testing_prompts)
+
+        return all_prompts
+    
+    def generate_testing_prompt(self, payload, prompt_index=None):
+        if not prompt_index:
+            prompt_index = self.prompt_index
+            self.prompt_index = self.prompt_index % len(self.prompt_generation_prompts)
+            self.prompt_index + 1
+            
+        prompt = self.prompt_generation_prompts[prompt_index]
+        prompt = self.replace_keywords(prompt)
+        testing_prompt = self.validator_model.generate_text(prompt, 'question', payload=payload)
+
+        return testing_prompt
+    
+
+    # def replace_keywords(self, text):
+    #      text = text.replace("<seed>",get_random_seeds(1))
+    #      text = text.replace("<seeds>",get_random_seeds(2))
+    #      text = text.replace("<seeds3>",get_random_seeds(3))
+    #      return text
+    
+
+    @abstractmethod
+    def replace_keywords(self, text):
+        """
+        Replace keywords in the given text.
+        This method must be implemented by subclasses of SynergyCategory.
+        
+        Parameters:
+        text (str): The text in which to replace keywords.
+
+        Returns:
+        str: The text with keywords replaced.
+        """
+        pass
+
+
+    def evaluate_response(self, question, response, payload):
+        all_evaluation = []
+        labels = [self.evaluation_label_pass, self.evaluation_label_fail]
+        
+        for prompt in self.evaluation_prompts:
+            
+            prompt = self.replace_keywords(prompt)
+            prompt = prompt.replace("<question>", question).replace("<response>", response)
+            label_probabilities = self.validator_model.probability_of_labels(prompt, payload=payload, labels=labels)
+
+            print("Filter Label probs", label_probabilities)
+
+            all_evaluation.append(label_probabilities[0] > label_probabilities[1]) # and label_probabilities[0] > 0.7 #shows true if first label (pass) is more likely
+
+
+        return all_evaluation
+
+    def filter_responses(self, question, responses, uids, payload):
+
+        filtered_uids = []
+        filtered_responses = []
+        evaluated_responses = {}
+
+        for i, response in enumerate(responses):
+            if not response in evaluated_responses:
+                evaluated_responses[response] = self.evaluate_response(question, response, payload)
+
+
+            if not False in evaluated_responses[response]:
+                filtered_uids.append(uids[i])
+                filtered_responses.append(response)
+        
+        return filtered_responses, filtered_uids
+    
+
+    
+    def get_valid_responses(self, responses, uids_to_query):
+        valid_responses_uids = []
+        valid_responses = []
+
+        for i, response in enumerate(responses):
+            if response:
+                valid_responses_uids.append(uids_to_query[i])
+
+                response = response[:self.response_character_limit]
+
+                valid_responses.append(response)
+        
+        return valid_responses, valid_responses_uids
+
+    def forward(self, call_uids):
+        
+        uids_to_query = self.uids_info.get_uids_for_category(self.category_name)
+
+        payload = {
+            "prompt": "",
+            "max_tokens": self.answer_token_limit,
+            "temperature": 0.75,
+            "n": 1,
+            "top_p": 1,
+            "presence_penalty":1.15,
+            "max_response_time": self.max_response_time,
+            "get_miner_info": False,
+        }
+
+        testing_prompt = self.generate_testing_prompt(payload)
+        payload["system"] = "You are a helpful assistant."
+        payload["prompt"] = testing_prompt
+        print("Testing prompt", testing_prompt)
+
+        # payload = {
+        #     'prompt': testing_prompt,
+        #     'max_tokens': self.answer_token_limit,
+        #     'max_response_time': self.max_response_time,
+        #     'get_miner_info': False,
+        # }
+
+
+
+        miners_responses = call_uids(uids_to_query, payload)
+        all_none = all(value is None for value in miners_responses)
+        if all_none: # Retry Request
+            miners_responses = call_uids(uids_to_query, payload)
+
+        # print("miners_responses", miners_responses)
+        responses = []
+        for idx, miner_response in enumerate(miners_responses):
+            try:
+                # print("")
+                # print("Miner res in val", miner_response)
+                # print("")
+                responses.append(miner_response['response']["outputs"][0]["text"])
+            except:
+                # Add a warning
+                # bt.logging.warning(f"Miner running on uid {uids_to_query[idx]} responded {miner_response} for text generation query. Skipping this miner.")
+                # Remove the uid from the list of uids to query
+                uids_to_query.remove(uids_to_query[idx])
+                continue
+
+        if not responses:
+            bt.logging.warning(f"No proper response recieved from any miner with category {self.category_name} for the input prompt. Skipping setting weights for {self.category_name}")
+            return False
+
+        valid_responses, valid_responses_uids = self.get_valid_responses(responses, uids_to_query)
+
+        if not valid_responses:
+            bt.logging.warning(f"No valids response recieved from any miner with category {self.category_name} for the input prompt. Skipping setting weights for {self.category_name}")
+            return False
+
+        # print("valid_responses", valid_responses)
+        filtered_responses, filtered_responses_uids = self.filter_responses(testing_prompt, valid_responses, valid_responses_uids, payload)
+
+        if not filtered_responses:
+            bt.logging.warning(f"Prompt injection attack. Skipping setting weights for {self.category_name}")
+            return False
+
+        # print("filtered_responses", filtered_responses)
+        # print("filtered_responses_uids", filtered_responses_uids)
+
+        validator_response = self.validator_model.generate_text(testing_prompt, 'answer', payload)
+        scores = self.score_responses( testing_prompt, filtered_responses, validator_response, payload)
+
+        self.update_uid_info(uids_to_query, valid_responses_uids, filtered_responses_uids, scores)
+
+        return True
+
+    def rank_indices(self, lst):
+        """Return a list with the ranking of each element."""
+        epsilon = 1e-10
+        sorted_indices = sorted(range(len(lst)), key=lambda k: (lst[k], random.random() * epsilon), reverse=True)
+        ranks = [0] * len(lst)
+        for i, idx in enumerate(sorted_indices, 1):
+            ranks[idx] = i
+        return ranks
+
+    def update_uid_info(self, uids_to_query, valid_responses_uids, filtered_responses_uids, scores):
+        self.uids_info.update_response_rate(uids_to_query, valid_responses_uids)
+        self.uids_info.update_good_response_rate(uids_to_query, filtered_responses_uids)
+        self.uids_info.update_validator_elo(filtered_responses_uids, scores)
+
+        rankings = self.rank_indices(scores)
+        self.uids_info.update_rankings(filtered_responses_uids, uids_to_query, rankings)
+
+        synergies = self.calculate_synergy(rankings)
+        self.uids_info.update_synergies(filtered_responses_uids, uids_to_query, synergies)
+
+    
+
+    def score_responses(self, question, responses, validator_response, payload):
+
+        # print("Score response called with responses",  responses)
+
+        scores = []
+        evaluated_responses = {}
+        for response in responses:
+
+            if not response in evaluated_responses:
+                _, sum_probabilities = self.vs_response(question, validator_response, response, payload)
+                evaluated_responses[response] = sum_probabilities[-1]
+
+            scores.append(evaluated_responses[response])
+
+        return scores
+    
+    def calculate_synergy(self, rankings):
+        num_uids = len(rankings)
+        synergies = [0] * num_uids
+        for i, rank in enumerate(rankings):
+            if rank < len(self.synergy_based_on_rank):
+                synergies[i] = self.synergy_based_on_rank[rank]
+        return synergies
+
+    def calculate_synergy_wma(self, historical_synergy):
+        historical_synergy = [0 if x is None else x for x in historical_synergy]
+
+
+        if len(historical_synergy) < len(self.synergy_weights):
+
+            if len(historical_synergy) < len(self.synergy_weights)/2:
+                zeros_to_fill = [0] * (int(len(self.synergy_weights)/2) - len(historical_synergy))
+                historical_synergy = historical_synergy[::-1] + zeros_to_fill + historical_synergy + zeros_to_fill
+            else:
+                historical_synergy = historical_synergy[::-1] + historical_synergy
+                historical_synergy = historical_synergy[-len(self.synergy_weights):]
+
+        synergy = sum(s*w for s, w in zip(historical_synergy, self.synergy_weights))
+
+        return synergy
+    
+    def calculate_validator_elo_score(self, uids):
+        elos = [self.uids_info.uids[uid].validator_elo for uid in uids]
+        
+        ranked_elos = self.rank_indices(elos)
+
+        validator_elo_scores = [0] * len(ranked_elos)
+
+        for i, rank in enumerate(ranked_elos):
+            if rank < len(self.synergy_based_on_rank):
+                validator_elo_scores[i] = self.validator_elo_score_weights[rank]
+            
+        validator_elo_scores = self.normalize(validator_elo_scores)
+        return validator_elo_scores
+    
+    def normalize(self, numbers):
+        total = sum(numbers)
+        if total == 0:
+            return [0.0] * len(numbers)
+        return [float(i)/total for i in numbers]
+
+    def calculate_synergy_score(self, uids):
+        synergies = []
+
+        for uid in uids:
+            synergy = self.calculate_synergy_wma( self.uids_info.uids[uid].past_synergies )
+            # print("Syngergy", synergy)
+            synergies.append(synergy)
+        # print("Synergies", synergies)
+        synergies = self.normalize(synergies)
+        return synergies
+
+    def calculate_good_response_rate_score(self, uids):
+        good_response_rates = []
+
+        for uid in uids:
+            past_good_response_rate = self.uids_info.uids[uid].past_good_response_rate
+            if sum(past_good_response_rate) == 0:
+                good_response_rate= 0
+            else:
+                weights = list(range(1, len(past_good_response_rate) + 1))
+                good_response_rate = sum(past_good_response_rate[i]*weights[i] for i in range(len(past_good_response_rate))  ) / sum(weights)
+
+            good_response_rates.append(good_response_rate)
+        
+        return good_response_rates
+
+    def calculate_miner_incentive_score(self):
+        incentive_scores = []
+
+        category_uids = self.uids_info.get_uids_for_category(self.category_name)
+
+        validator_elo_scores = self.calculate_validator_elo_score(category_uids)
+        synergy_scores = self.calculate_synergy_score(category_uids)
+        good_response_rates = self.calculate_good_response_rate_score(category_uids)
+        #print("validator_elo_scores", validator_elo_scores)
+        #print("synergy_scores", synergy_scores)
+        #print("good_response_rates", good_response_rates)
+
+        for i in range(len(category_uids)):
+            incentive_score = ( validator_elo_scores[i] * self.validator_elo_reward_weight + synergy_scores[i] * self.synergy_reward_weight ) * good_response_rates[i]
+            incentive_scores.append(incentive_score)
+            if i < 5:
+                print("validator_elo_scores[i]", validator_elo_scores[i], "synergy_scores[i]", synergy_scores[i], "good_response_rates[i]", good_response_rates[i] )
+
+
+        # if len(incentive_scores) > self.max_incentivized_miners:
+        #     threshold = sorted(incentive_scores, reverse=True)[self.max_incentivized_miners + 1]
+        #     incentive_scores = [x if x >= threshold else 0 for x in incentive_scores]
+        
+        for i, item in enumerate(incentive_scores):
+            if incentive_scores[i] > (2 / self.max_incentivized_miners):
+                incentive_scores[i] = item - (1 / self.max_incentivized_miners)
+            else:
+                incentive_scores[i] = item / 2
+
+
+        incentive_scores = self.normalize(incentive_scores)
+
+        return incentive_scores, category_uids
+    
+
+
+    """ Tournament code """
+    def vs_response(self, question, response_1, response_2, payload):
+
+
+        labels = (self.vs_prompt["label_first_winner"], self.vs_prompt["label_second_winner"])
+
+        sum_probabilities = [0, 0]
+
+        for reverse in [False, True]:
+            prompt = self.vs_prompt["prompt"]
+
+            response_order = (response_1, response_2) if not reverse else (response_2, response_1)
+            prompt = prompt.replace("<question>", question).replace("<response1>", response_order[0]).replace("<response2>", response_order[1])
+
+            label_probabilities = self.validator_model.probability_of_labels(prompt, payload=payload, labels=labels)
+            print("VS Response label probs", label_probabilities)
+
+            # Adjust for reverse order
+            if reverse:
+                label_probabilities.reverse()
+
+            sum_probabilities[0] += label_probabilities[0]
+            sum_probabilities[1] += label_probabilities[1]
+
+        winner = sum_probabilities.index(max(sum_probabilities))
+        return winner, sum_probabilities
+
+
